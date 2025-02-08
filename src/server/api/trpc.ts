@@ -122,8 +122,36 @@ export const protectedProcedure = t.procedure
   .use(timingMiddleware)
   .use(({ ctx, next }) => {
     if (!ctx.session || !ctx.session.user) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Login terlebih dahulu untuk mengakses fitur ini",
+      });
     }
+    return next({
+      ctx: {
+        // infers the `session` as non-nullable
+        session: { ...ctx.session, user: ctx.session.user },
+      },
+    });
+  });
+
+export const adminProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(({ ctx, next }) => {
+    if (!ctx.session || !ctx.session.user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Login terlebih dahulu untuk mengakses fitur ini",
+      });
+    }
+
+    if (!ctx.session.user.isAdmin) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Anda tidak memiliki akses untuk mengakses fitur ini",
+      });
+    }
+
     return next({
       ctx: {
         // infers the `session` as non-nullable
