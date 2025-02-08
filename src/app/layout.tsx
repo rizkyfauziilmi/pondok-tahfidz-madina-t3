@@ -8,6 +8,8 @@ import { Toaster } from "~/components/ui/sonner";
 import { ThemeProvider } from "~/components/theme-provider";
 import { TopBar } from "./_components/top-bar";
 import { SessionProvider } from "next-auth/react";
+import { auth } from "~/server/auth";
+import { api, HydrateClient } from "~/trpc/server";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -15,9 +17,15 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth();
+
+  if (session?.user) {
+    void api.adminPasswordRouter.getCurrent.prefetch();
+  }
+
   return (
     <html lang="en" className={`${GeistSans.variable}`} suppressHydrationWarning>
       <body>
@@ -28,7 +36,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <SessionProvider>
-              <TopBar />
+              <HydrateClient>
+                <TopBar />
+              </HydrateClient>
               {children}
               <Toaster />
             </SessionProvider>

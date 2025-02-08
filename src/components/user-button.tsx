@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
 import { signIn, signOut, useSession } from "next-auth/react"
 import { nameToFallback } from "~/lib/string"

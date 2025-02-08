@@ -49,7 +49,7 @@ export const TopBar = () => {
     );
 
     return (
-        <div className="py-2 px-4 md:px-20 bg-[#009e9b] gap-4 md:gap-0 flex items-center justify-between">
+        <div className="py-2 px-3 md:px-20 bg-[#009e9b] gap-4 md:gap-0 flex items-center justify-between">
             <Link href="/">
                 <div className="flex items-center gap-2">
                     <Image
