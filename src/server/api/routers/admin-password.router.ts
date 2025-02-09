@@ -18,14 +18,20 @@ export const adminPasswordRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
     });
 
+    // delete all admin passwords except the latest one
+    await ctx.db.adminPassword.deleteMany({
+      where: {
+        id: {
+          not: password?.id,
+        },
+      },
+    });
+
     return password ?? null;
   }),
   setPassword: protectedProcedure
     .input(setAdminPasswordSchema)
     .mutation(async ({ ctx, input }) => {
-      // Delete all previous passwords
-      await ctx.db.adminPassword.deleteMany({});
-
       let hashedPassword;
 
       try {

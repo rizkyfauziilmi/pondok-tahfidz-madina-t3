@@ -31,13 +31,11 @@ export const UpdateAdminPasswordDialog = ({
     const [oldPassword, setOldPassword] = useState<string>("");
     const [newPassword, setNewPassword] = useState<string>("");
 
-    const utils = api.useUtils();
     const {
         mutate: updateAdminPasswordMutation,
         isPending: updateSetAdminPasswordPending,
     } = api.adminPasswordRouter.updateAdminPassword.useMutation({
         async onSuccess() {
-            await utils.adminPasswordRouter.invalidate();
 
             toast("Password admin berhasil diubah", {
                 description: "Gunakan password baru untuk masuk sebagai admin",
