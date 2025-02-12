@@ -30,9 +30,9 @@ const programList: ProgramProps[] = [
         isComponent: false,
     },
     {
-        title: "Wirausaha Pondok",
+        title: "Artikel Pondok",
         logo: "/images/wirausaha-pondok.png",
-        link: "wirausaha-pondok",
+        link: "articles",
         isComponent: false,
     },
     {

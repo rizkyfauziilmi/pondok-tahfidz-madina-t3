@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useBoolean } from "usehooks-ts";
 import {
     Dialog,
@@ -10,12 +9,17 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "~/components/ui/dialog"
-import { CircleAlert, CircleCheck, Eye, EyeOff, LoaderCircle } from "lucide-react";
+} from "~/components/ui/dialog";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { api } from "~/trpc/react";
-import { toast } from "sonner"
+import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useForm } from "react-hook-form";
+import { type z } from "zod";
+import { setAdminPasswordSchema } from "~/server/api/schemas/admin-password.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 
 interface SetAdminPasswordDialogProps {
     open: boolean;
@@ -27,7 +31,12 @@ export const SetAdminPasswordDialog = ({
     setOpen,
 }: SetAdminPasswordDialogProps) => {
     const isShowPassword = useBoolean(false);
-    const [password, setPassword] = useState<string>("");
+    const form = useForm<z.infer<typeof setAdminPasswordSchema>>({
+        resolver: zodResolver(setAdminPasswordSchema),
+        defaultValues: {
+            password: "",
+        }
+    });
 
     const utils = api.useUtils();
     const {
@@ -37,28 +46,33 @@ export const SetAdminPasswordDialog = ({
         async onSuccess() {
             await utils.adminPasswordRouter.invalidate();
 
-            toast("Password admin berhasil diatur", {
+            toast.success("Password admin berhasil diatur", {
                 description: "Jadi admin sekarang untuk menggunakan fitur admin",
-                icon: <CircleCheck className="text-green-500 mr-2 size-4" />,
             });
-            setPassword("");
+            form.reset();
             setOpen(false);
         },
-        onError(e) {
-            const errorMessage = e?.data?.zodError?.fieldErrors?.password?.[0]
-                ?? e.message
-
-            toast("Gagal mengatur password admin", {
-                description: errorMessage,
-                icon: <CircleAlert className="text-red-500 mr-2 size-4" />,
+        onError(error) {
+            toast.error("Gagal mengatur password admin", {
+                description: error.message,
             });
         }
-    })
+    });
+
+
+    function onSubmit(values: z.infer<typeof setAdminPasswordSchema>) {
+        try {
+            setAdminPasswordMutation(values);
+        } catch (error) {
+            console.error("Gagal Submit", error);
+            toast.error("Gagal Submit form, silahkan coba lagi.");
+        }
+    }
 
     return (
         <Dialog open={open} onOpenChange={(open) => {
             if (!open) {
-                setPassword("");
+                form.reset();
             }
             setOpen(open);
         }}>
@@ -71,33 +85,53 @@ export const SetAdminPasswordDialog = ({
                         Password admin belum diatur, silahkan atur password admin terlebih dahulu. Pastikan password admin minimal 8 karakter dan kombinasi huruf dan angka.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="relative">
-                    <Input
-                        placeholder="sangat-rahasia"
-                        type={isShowPassword.value ? "text" : "password"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Button size="icon" onClick={isShowPassword.toggle} variant="ghost" className="absolute top-0 right-2">
-                        {isShowPassword.value ? <EyeOff /> : <Eye />}
-                    </Button>
-                </div>
-                <DialogFooter>
-                    <DialogClose asChild disabled={isSetAdminPasswordPending}>
-                        <Button type="button" variant="secondary">
-                            Batal
-                        </Button>
-                    </DialogClose>
-                    <Button
-                        onClick={() => setAdminPasswordMutation({ password })}
-                        disabled={isSetAdminPasswordPending}
-                        type="button"
-                    >
-                        {isSetAdminPasswordPending && <LoaderCircle className="size-4 animate-spin" />}
-                        {isSetAdminPasswordPending ? "Memproses..." : "Setel"}
-                    </Button>
-                </DialogFooter>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Input
+                                                placeholder="sangat-rahasia"
+                                                type={isShowPassword.value ? "text" : "password"}
+                                                {...field}
+                                            />
+                                            <Button
+                                                size="icon"
+                                                onClick={isShowPassword.toggle}
+                                                variant="ghost"
+                                                className="absolute top-0 right-2"
+                                                type="button"
+                                            >
+                                                {isShowPassword.value ? <EyeOff /> : <Eye />}
+                                            </Button>
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <DialogFooter>
+                            <DialogClose asChild disabled={isSetAdminPasswordPending}>
+                                <Button type="button" variant="secondary">
+                                    Batal
+                                </Button>
+                            </DialogClose>
+                            <Button
+                                type="submit"
+                                disabled={isSetAdminPasswordPending}
+                            >
+                                {isSetAdminPasswordPending && <LoaderCircle className="size-4 animate-spin" />}
+                                {isSetAdminPasswordPending ? "Memproses..." : "Setel"}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
             </DialogContent>
         </Dialog>
-    )
-}
+    );
+};

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useBoolean } from "usehooks-ts";
 import {
     Dialog,
@@ -10,12 +9,17 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "~/components/ui/dialog"
-import { CircleAlert, CircleCheck, Eye, EyeOff, LoaderCircle } from "lucide-react";
+} from "~/components/ui/dialog";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { api } from "~/trpc/react";
-import { toast } from "sonner"
+import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useForm } from "react-hook-form";
+import { type z } from "zod";
+import { updateAdminPasswordSchema } from "~/server/api/schemas/admin-password.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 
 interface UpdateAdminPasswordDialogProps {
     open: boolean;
@@ -28,38 +32,46 @@ export const UpdateAdminPasswordDialog = ({
 }: UpdateAdminPasswordDialogProps) => {
     const isShowOldPassword = useBoolean(false);
     const isShowNewPassword = useBoolean(false);
-    const [oldPassword, setOldPassword] = useState<string>("");
-    const [newPassword, setNewPassword] = useState<string>("");
 
     const {
         mutate: updateAdminPasswordMutation,
         isPending: updateSetAdminPasswordPending,
     } = api.adminPasswordRouter.updateAdminPassword.useMutation({
         async onSuccess() {
-
-            toast("Password admin berhasil diubah", {
+            toast.success("Password admin berhasil diubah", {
                 description: "Gunakan password baru untuk masuk sebagai admin",
-                icon: <CircleCheck className="text-green-500 mr-2 size-4" />,
             });
-            setOldPassword("");
-            setNewPassword("");
+            form.reset();
             setOpen(false);
         },
-        onError(e) {
-            const errorMessage = e?.data?.zodError?.fieldErrors?.password?.[0]
-                ?? e.message
-
-            toast("Gagal mengubah password admin", {
-                description: errorMessage,
-                icon: <CircleAlert className="text-red-500 mr-2 size-4" />,
+        onError(error) {
+            toast.error("Gagal mengubah password admin", {
+                description: error.message,
             });
         }
-    })
+    });
+
+    const form = useForm<z.infer<typeof updateAdminPasswordSchema>>({
+        resolver: zodResolver(updateAdminPasswordSchema),
+        defaultValues: {
+            oldPassword: "",
+            newPassword: "",
+        }
+    });
+
+    function onSubmit(values: z.infer<typeof updateAdminPasswordSchema>) {
+        try {
+            updateAdminPasswordMutation(values);
+        } catch (error) {
+            console.error("Gagal Submit", error);
+            toast.error("Gagal Submit form, silahkan coba lagi.");
+        }
+    }
 
     return (
         <Dialog open={open} onOpenChange={(open) => {
             if (!open) {
-                setOldPassword("");
+                form.reset();
             }
             setOpen(open);
         }}>
@@ -72,44 +84,81 @@ export const UpdateAdminPasswordDialog = ({
                         Masukkan password lama dan password baru untuk mengubah password admin
                     </DialogDescription>
                 </DialogHeader>
-                <div className="relative">
-                    <Input
-                        placeholder="password-lama"
-                        type={isShowOldPassword.value ? "text" : "password"}
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                    />
-                    <Button size="icon" onClick={isShowOldPassword.toggle} variant="ghost" className="absolute top-0 right-2">
-                        {isShowOldPassword.value ? <EyeOff /> : <Eye />}
-                    </Button>
-                </div>
-                <div className="relative">
-                    <Input
-                        placeholder="password-baru"
-                        type={isShowNewPassword.value ? "text" : "password"}
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                    <Button size="icon" onClick={isShowNewPassword.toggle} variant="ghost" className="absolute top-0 right-2">
-                        {isShowOldPassword.value ? <EyeOff /> : <Eye />}
-                    </Button>
-                </div>
-                <DialogFooter>
-                    <DialogClose asChild disabled={updateSetAdminPasswordPending}>
-                        <Button type="button" variant="secondary">
-                            Batal
-                        </Button>
-                    </DialogClose>
-                    <Button
-                        onClick={() => updateAdminPasswordMutation({ oldPassword, newPassword })}
-                        disabled={updateSetAdminPasswordPending}
-                        type="button"
-                    >
-                        {updateSetAdminPasswordPending && <LoaderCircle className="size-4 animate-spin" />}
-                        {updateSetAdminPasswordPending ? "Memproses..." : "Ubah Password"}
-                    </Button>
-                </DialogFooter>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField
+                            control={form.control}
+                            name="oldPassword"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password Lama</FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Input
+                                                placeholder="password-lama"
+                                                type={isShowOldPassword.value ? "text" : "password"}
+                                                {...field}
+                                            />
+                                            <Button
+                                                size="icon"
+                                                onClick={isShowOldPassword.toggle}
+                                                variant="ghost"
+                                                className="absolute top-0 right-2"
+                                                type="button"
+                                            >
+                                                {isShowOldPassword.value ? <EyeOff /> : <Eye />}
+                                            </Button>
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="newPassword"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password Baru</FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Input
+                                                placeholder="password-baru"
+                                                type={isShowNewPassword.value ? "text" : "password"}
+                                                {...field}
+                                            />
+                                            <Button
+                                                size="icon"
+                                                onClick={isShowNewPassword.toggle}
+                                                variant="ghost"
+                                                className="absolute top-0 right-2"
+                                                type="button"
+                                            >
+                                                {isShowNewPassword.value ? <EyeOff /> : <Eye />}
+                                            </Button>
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <DialogFooter>
+                            <DialogClose asChild disabled={updateSetAdminPasswordPending}>
+                                <Button type="button" variant="secondary">
+                                    Batal
+                                </Button>
+                            </DialogClose>
+                            <Button
+                                type="submit"
+                                disabled={updateSetAdminPasswordPending}
+                            >
+                                {updateSetAdminPasswordPending && <LoaderCircle className="size-4 animate-spin" />}
+                                {updateSetAdminPasswordPending ? "Memproses..." : "Ubah Password"}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
             </DialogContent>
         </Dialog>
-    )
-}
+    );
+};

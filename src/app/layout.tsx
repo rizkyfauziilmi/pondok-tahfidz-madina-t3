@@ -6,10 +6,11 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Toaster } from "~/components/ui/sonner";
 import { ThemeProvider } from "~/components/theme-provider";
-import { TopBar } from "./_components/top-bar";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
+import { TooltipProvider } from '~/components/ui/tooltip'
+import { TopBar } from "./_components/top-bar";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -36,11 +37,13 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <SessionProvider>
-              <HydrateClient>
-                <TopBar />
-              </HydrateClient>
-              {children}
-              <Toaster />
+              <TooltipProvider>
+                <HydrateClient>
+                  <TopBar />
+                </HydrateClient>
+                {children}
+                <Toaster />
+              </TooltipProvider>
             </SessionProvider>
           </ThemeProvider>
         </TRPCReactProvider>

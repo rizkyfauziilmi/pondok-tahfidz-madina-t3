@@ -1,4 +1,4 @@
-import { CircleAlert, CircleCheck, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import {
@@ -31,9 +31,8 @@ export const BecomeUserAlertDialog = ({
         async onSuccess() {
             await updateSession();
 
-            toast("Sukses keluar dari mode admin", {
+            toast.success("Sukses keluar dari mode admin", {
                 description: "Anda sekarang tidak lagi memiliki akses admin",
-                icon: <CircleCheck className="text-green-500 mr-2 size-4" />,
             });
             setOpen(false);
         },
@@ -42,9 +41,9 @@ export const BecomeUserAlertDialog = ({
                 ?? e.message
                 ?? "Terjadi kesalahan, silahkan coba lagi";
 
-            toast("Gagal keluar dari mode admin", {
+            toast.error("Gagal keluar dari mode admin", {
                 description: errorMessage,
-                icon: <CircleAlert className="text-red-500 mr-2 size-4" />,
+
             });
         }
     })

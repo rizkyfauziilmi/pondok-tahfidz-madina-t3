@@ -51,7 +51,7 @@ export const Hero = () => {
   // notify user beacuse of the autoplay, video will be muted initially
   useEffect(() => {
     if (isReady) {
-      toast("Suara dimatikan", {
+      toast.warning("Suara dimatikan", {
         description: "Karena fitur autoplay, video akan dimute secara default",
         icon: <Headphones className="mr-2 size-4" />,
         action: {
@@ -119,7 +119,7 @@ export const Hero = () => {
                 className="bg-[#2cd46b] font-semibold hover:bg-[#29c263]"
                 asChild
               >
-                <Link href="https://wa.link/rcd0jf" target="_blank">
+                <Link href="https://wa.link/rcd0jf" target="_blank" className="text-white">
                   <WhatsappIcon className="mr-2 size-4" />
                   Hubungi Kami
                 </Link>
