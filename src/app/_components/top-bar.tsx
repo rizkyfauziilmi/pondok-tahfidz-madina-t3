@@ -9,7 +9,7 @@ import { useSidebarStore } from "~/stores/sidebar-store";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { UserButton } from "~/components/user-button";
 
 interface dataLinkType {
@@ -21,6 +21,7 @@ interface dataLinkType {
 export const TopBar = () => {
     const { isOpen, setIsOpen } = useSidebarStore();
     const router = useRouter();
+    const pathname = usePathname();
 
     const dataLink: dataLinkType[] = [
         { title: "Beranda", link: "/" },
@@ -47,6 +48,12 @@ export const TopBar = () => {
             {data.title}
         </p>
     );
+
+    const currentPath = (pathname?.split("/")[1]) ?? "";
+
+    const isNotShow = ["dashboard"].includes(currentPath);
+
+    if (isNotShow) return null;
 
     return (
         <div className="py-2 px-3 md:px-20 bg-[#009e9b] gap-4 md:gap-0 flex items-center justify-between">
