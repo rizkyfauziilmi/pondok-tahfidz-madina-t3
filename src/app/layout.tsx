@@ -11,6 +11,7 @@ import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 import { TooltipProvider } from '~/components/ui/tooltip'
 import { TopBar } from "./_components/top-bar";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Create T3 App",

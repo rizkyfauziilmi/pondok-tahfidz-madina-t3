@@ -9,4 +9,14 @@ export const createArticleSchema = z.object({
   content: z.string().min(100, "Konten artikel minimal 100 karakter"),
   isPublished: z.boolean().default(false),
   thumbnail: z.string().url("Thumbnail harus berupa link"),
+    thumbnailKey: z.string(),
+});
+
+export const togglePublishArticleSchema = z.object({
+    id: z.string(),
+    isPublished: z.boolean(),
+});
+
+export const deleteArticleSchema = z.object({
+    id: z.string(),
 });

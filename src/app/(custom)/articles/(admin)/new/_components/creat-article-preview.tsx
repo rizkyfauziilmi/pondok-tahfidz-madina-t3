@@ -1,18 +1,18 @@
 "use client";
 
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
-import dayjs from "dayjs";
 import { ThumbsUp, Eye } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { type Control } from "react-hook-form";
 import { type z } from "zod";
 import { MinimalTiptapEditor } from "~/components/minimal-tiptap";
-import { Badge } from "~/components/ui/badge";
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "~/components/ui/form";
 import { isValidUrl } from "~/lib/cheker";
 import { nameToFallback } from "~/lib/string";
 import { type createArticleSchema } from "~/server/api/schemas/article.schema";
+import { IsPublishedBadge } from "~/components/is-published-badge";
+import moment from "moment";
 
 interface CreateArticlePreviewProps {
     control: Control<z.infer<typeof createArticleSchema>, unknown>,
@@ -42,16 +42,12 @@ export const CreateArticlePreview = ({
 
     return (
         <div className="p-4 flex flex-col gap-4 items-center">
-            {isPublished ? (
-                <Badge className="bg-green-500 text-white">Published</Badge>
-            ) : (
-                <Badge className="bg-red-500 text-white">Draft</Badge>
-            )}
+            <IsPublishedBadge isPublished={isPublished ?? false} />
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 {title.trim() === "" ? "Judul artikel" : title}
             </h1>
             <p className="text-sm text-muted-foreground">
-                {dayjs().locale('id').format("DD MMMM YYYY • HH:mm")}
+                {moment().locale('id').format("DD MMMM YYYY • HH:mm")}
             </p>
             {thumbnail && isValidUrl(thumbnail) ? (
                 <Image src={thumbnail} alt="thumbnail" width={1920} height={1080} className="w-full rounded-lg" />

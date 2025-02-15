@@ -15,7 +15,6 @@ import { Button } from "~/components/ui/button";
 import { Switch } from "~/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import "dayjs/locale/id";
 import Image from "next/image";
 import { LoaderCircle, PencilLine, X } from "lucide-react";
 import { UploadDropzone } from "~/utils/uploadthing";
@@ -28,7 +27,6 @@ import { isValidUrl } from "~/lib/cheker";
 import { CreateArticlePreview } from "./_components/creat-article-preview";
 
 export default function NewArticle() {
-    const [fileId, setFileId] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<"upload" | "link">("upload");
     const router = useRouter();
 
@@ -41,7 +39,7 @@ export default function NewArticle() {
                 description: data.isPublished ? "Artikel sudah bisa diakses oleh pengguna" : "Artikel berhasil dibuat dan perlu di terbitkan terlebih dahulu",
             });
             form.reset();
-            void router.push("/articles");
+            void router.push("/dashboard/articles");
         },
         onError(error) {
             toast.error("Gagal membuat artikel", {
@@ -57,6 +55,7 @@ export default function NewArticle() {
             content: "",
             isPublished: false,
             thumbnail: "",
+            thumbnailKey: "",
         }
     })
 
@@ -78,7 +77,7 @@ export default function NewArticle() {
                 description: `Menghapus ${data.deletedCount} gambar`,
             });
             form.setValue("thumbnail", "");
-            setFileId(null);
+            form.setValue("thumbnailKey", "");
         },
         onError(error) {
             toast.error("Gagal menghapus gambar", {
@@ -89,7 +88,7 @@ export default function NewArticle() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full min-h-screen">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <ResizablePanelGroup direction="horizontal">
                     <ResizablePanel defaultSize={30} minSize={20} maxSize={60} className="space-y-6 p-4">
                         <FormField
@@ -120,12 +119,12 @@ export default function NewArticle() {
                                         Thumbnail Artikel
                                     </FormLabel>
                                     <Tabs value={activeTab} className="w-full" onValueChange={(value) => {
-                                        if (value !== "upload" && fileId) {
-                                            deleteFilesMutation({ ids: fileId });
+                                        if (value !== "upload" && form.watch("thumbnailKey")) {
+                                            deleteFilesMutation({ ids: form.getValues("thumbnailKey") });
                                             return
                                         } else {
                                             form.setValue("thumbnail", "");
-                                            setFileId(null);
+                                            form.setValue("thumbnailKey", "");
                                         }
 
                                         setActiveTab(value as "upload" | "link");
@@ -136,7 +135,7 @@ export default function NewArticle() {
                                         </TabsList>
                                         <TabsContent value="upload">
                                             <FormControl>
-                                                {form.watch("thumbnail") && isValidUrl(form.watch("thumbnail")) && fileId ? (
+                                                {form.watch("thumbnail") && isValidUrl(form.watch("thumbnail")) && form.watch("thumbnailKey") ? (
                                                     <div className="relative">
                                                         <Image src={form.watch("thumbnail")} alt="thumbnail" width={1920} height={1080} className="w-full rounded-lg" />
                                                         <Button
@@ -145,7 +144,7 @@ export default function NewArticle() {
                                                             disabled={isDeleteFilesPending}
                                                             variant={isDeleteFilesPending ? "secondary" : "destructive"}
                                                             className="absolute top-2 right-2 rounded-full"
-                                                            onClick={() => deleteFilesMutation({ ids: fileId })}
+                                                            onClick={() => deleteFilesMutation({ ids: form.getValues("thumbnailKey") })}
                                                         >
                                                             {isDeleteFilesPending ?
                                                                 <LoaderCircle className="size-4 animate-spin" />
@@ -163,7 +162,7 @@ export default function NewArticle() {
                                                             if (!file) return;
 
                                                             field.onChange(file.ufsUrl);
-                                                            setFileId(file.key);
+                                                            form.setValue("thumbnailKey", file.key);
 
                                                             toast.success("Image uploaded successfully", {
                                                                 description: `${file?.name} (${file?.size})`,

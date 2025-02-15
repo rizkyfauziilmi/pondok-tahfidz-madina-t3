@@ -2,24 +2,35 @@
 
 import { SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "~/components/ui/sidebar"
 
-import { Activity, BookUser, Clapperboard, Fingerprint, Newspaper, PenLine, UserCog, UsersRound } from "lucide-react"
+import {
+    Activity,
+    BookCopy,
+    BookUser,
+    Clapperboard,
+    Fingerprint,
+    Newspaper,
+    PenLine,
+    UserCog,
+    UsersRound
+} from "lucide-react"
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 
 const dashboardMenuItems = [
     {
         title: "Statistik Konten",
-        url: undefined,
+        url: "/dashboard",
         icon: Clapperboard,
     },
     {
         title: "Statistik Pengunjung",
-        url: "visitors",
+        url: "/dashboard/visitors",
         icon: UsersRound,
     },
     {
         title: "Ringakasan Aktivitas",
-        url: "activity-overview",
+        url: "/dashboard/activity-overview",
         icon: Activity,
     },
 ]
@@ -27,12 +38,17 @@ const dashboardMenuItems = [
 const contentMenuItems = [
     {
         title: "Daftar Artikel",
-        url: "articles",
+        url: "/dashboard/articles",
         icon: Newspaper,
     },
     {
+        title: "Lihat Artikel",
+        url: "/articles",
+        icon: BookCopy,
+    },
+    {
         title: "Tambah Artikel",
-        url: "articles/new",
+        url: "/articles/new",
         icon: PenLine,
     },
 ]
@@ -40,17 +56,17 @@ const contentMenuItems = [
 const usersMenuItems = [
     {
         title: "Daftar Pengguna",
-        url: "users",
+        url: "/dashboard/users",
         icon: BookUser,
     },
     {
         title: "Hak Akses Pengguna",
-        url: "roles",
+        url: "/dashboard/roles",
         icon: Fingerprint,
     },
     {
         title: "Aktivitas Pengguna",
-        url: "user-activity",
+        url: "/dashboard/user-activity",
         icon: UserCog,
     }
 ]
@@ -58,19 +74,17 @@ const usersMenuItems = [
 export const SidebarContentDashboard = () => {
     const pathname = usePathname();
 
-    const path = pathname.split("/")[2]
+    const path = pathname.split("/")[2];
 
-    const urlToHref = (url?: string): string => {
-        if (!url) {
-            return '/dashboard';
+    const isActiveUrl = (url: string) => {
+        // if url not start with dashboard, return false
+        if (!url.startsWith("/dashboard")) {
+            return false;
         }
 
-        const isNotDashboard = url.includes("/");
-        if (isNotDashboard) {
-            return `/${url}`;
-        } else {
-            return `/dashboard/${url}`;
-        }
+        const urlPath = url.split("/")[2];
+
+        return path === urlPath;
     }
 
     return (
@@ -81,16 +95,20 @@ export const SidebarContentDashboard = () => {
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
-                        {dashboardMenuItems.map((item) => (
-                            <SidebarMenuItem key={item.title}>
-                                <SidebarMenuButton asChild isActive={path === item.url}>
-                                    <a href={urlToHref(item.url)}>
-                                        <item.icon />
-                                        <span>{item.title}</span>
-                                    </a>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
+                        {dashboardMenuItems.map((item) => {
+                            const isActive = isActiveUrl(item.url);
+
+                            return (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton asChild isActive={isActive}>
+                                            <Link href={item.url}>
+                                                <item.icon />
+                                                <span>{item.title}</span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                )
+                        })}
                     </SidebarMenu>
                 </SidebarGroupContent>
             </SidebarGroup>
@@ -100,16 +118,20 @@ export const SidebarContentDashboard = () => {
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
-                        {contentMenuItems.map((item) => (
-                            <SidebarMenuItem key={item.title}>
-                                <SidebarMenuButton asChild isActive={path === item.url}>
-                                    <a href={urlToHref(item.url)}>
-                                        <item.icon />
-                                        <span>{item.title}</span>
-                                    </a>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
+                        {contentMenuItems.map((item) => {
+                            const isActive = isActiveUrl(item.url);
+
+                            return (
+                                <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild isActive={isActive}>
+                                        <Link href={item.url}>
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            )
+                        })}
                     </SidebarMenu>
                 </SidebarGroupContent>
             </SidebarGroup>
@@ -119,16 +141,20 @@ export const SidebarContentDashboard = () => {
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
-                        {usersMenuItems.map((item) => (
-                            <SidebarMenuItem key={item.title}>
-                                <SidebarMenuButton asChild isActive={path === item.url}>
-                                    <a href={urlToHref(item.url)}>
-                                        <item.icon />
-                                        <span>{item.title}</span>
-                                    </a>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
+                        {usersMenuItems.map((item) => {
+                            const isActive = isActiveUrl(item.url);
+
+                            return (
+                                <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild isActive={isActive}>
+                                        <Link href={item.url}>
+                                            <item.icon/>
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            )
+                        })}
                     </SidebarMenu>
                 </SidebarGroupContent>
             </SidebarGroup>
