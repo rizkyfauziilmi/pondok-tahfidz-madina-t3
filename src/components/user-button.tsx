@@ -32,7 +32,9 @@ import { Badge } from "./ui/badge";
 import { useRouter } from "next/navigation";
 
 export const UserButton = () => {
-  const [adminPassword] = api.adminPasswordRouter.getCurrent.useSuspenseQuery();
+  const [adminPassword] = api.adminPasswordRouter.getCurrent.useSuspenseQuery(undefined, {
+    retry: false
+  });
   const { data: session } = useSession();
   const setAdminPSDialog = useBoolean(false);
   const becomeAdminDialog = useBoolean(false);

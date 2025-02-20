@@ -79,7 +79,6 @@ export const CreateArticlePreview = ({
             </div>
             <FormField
                 control={control}
-
                 name="content"
                 render={({ field }) => (
                     <FormItem className="w-full">

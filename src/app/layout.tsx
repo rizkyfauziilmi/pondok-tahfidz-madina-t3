@@ -43,7 +43,7 @@ export default async function RootLayout({
                   <TopBar />
                 </HydrateClient>
                 {children}
-                <Toaster />
+                <Toaster richColors />
               </TooltipProvider>
             </SessionProvider>
           </ThemeProvider>

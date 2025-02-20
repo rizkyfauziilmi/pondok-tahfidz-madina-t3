@@ -75,7 +75,7 @@ model Article {
   id           String  @id @default(cuid())
   title        String
   thumbnail    String
-  thumbnailKey String
+  thumbnailKey String?
   content      String
   isPublished  Boolean @default(false)
   views        Int     @default(0)

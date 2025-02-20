@@ -2,7 +2,8 @@
 
 import { ArticleDataTable } from "./_components/article-data-table";
 import { articleColumns } from "./_components/article-columns";
-import {api} from "~/trpc/react";
+import { api } from "~/trpc/react";
+import { ArticleTableSkeleton } from "./_components/article-table-skeleton";
 
 export default function ArticlesPage() {
     const {
@@ -11,18 +12,16 @@ export default function ArticlesPage() {
         error,
     } = api.articleRouter.getDashboardArticles.useQuery();
 
-    if (isPending) {
-        return <div>Loading...</div>
-    }
-
     if (error) {
         return <div>Error: {error.message}</div>
     }
 
     return (
         <div className="h-screen overflow-y-auto flex flex-col items-center">
-            {/* TODO : finish implment the table */}
-            <ArticleDataTable columns={articleColumns} data={articles} />
+            {isPending ?
+                <ArticleTableSkeleton /> :
+                <ArticleDataTable columns={articleColumns} data={articles} />
+            }
         </div>
     )
 }

@@ -1,4 +1,3 @@
-// TODO : implement admin dashboard
 export default function DashboardPage() {
     return (
         <div>

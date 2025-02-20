@@ -42,7 +42,7 @@ const contentMenuItems = [
         icon: Newspaper,
     },
     {
-        title: "Lihat Artikel",
+        title: "Lihat Kumpulan Artikel",
         url: "/articles",
         icon: BookCopy,
     },
@@ -99,15 +99,15 @@ export const SidebarContentDashboard = () => {
                             const isActive = isActiveUrl(item.url);
 
                             return (
-                                    <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild isActive={isActive}>
-                                            <Link href={item.url}>
-                                                <item.icon />
-                                                <span>{item.title}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                )
+                                <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild isActive={isActive}>
+                                        <Link href={item.url}>
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            )
                         })}
                     </SidebarMenu>
                 </SidebarGroupContent>
@@ -148,7 +148,7 @@ export const SidebarContentDashboard = () => {
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild isActive={isActive}>
                                         <Link href={item.url}>
-                                            <item.icon/>
+                                            <item.icon />
                                             <span>{item.title}</span>
                                         </Link>
                                     </SidebarMenuButton>
