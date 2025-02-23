@@ -227,8 +227,6 @@ export const articleColumns: ColumnDef<ArticleWithUser>[] = [
             })
 
             const isLoading = isTogglePublishLoading || isDeleteLoading;
-
-            // TODO : implement edit article
             return (
                 <AlertDialog>
                     <DropdownMenu>
@@ -249,9 +247,11 @@ export const articleColumns: ColumnDef<ArticleWithUser>[] = [
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                <SquarePen className="size-4" />
-                                Edit
+                            <DropdownMenuItem asChild>
+                                <Link href={`/articles/edit/${id}`}>
+                                    <SquarePen className="size-4" />
+                                    Edit
+                                </Link>
                             </DropdownMenuItem>
                             <AlertDialogTrigger disabled={isDeleteLoading} asChild>
                                 <DropdownMenuItem>
@@ -261,7 +261,7 @@ export const articleColumns: ColumnDef<ArticleWithUser>[] = [
                             </AlertDialogTrigger>
                             <DropdownMenuItem onSelect={() => togglePublishArticle({ id, isPublished: !isPublished })} disabled={isTogglePublishLoading}>
                                 {isPublished ? <BookLock className="size-4" /> : <BookKey className="size-4" />}
-                                {isPublished ? "Batal Publikasikan" : "Simpan sebagai Draft"}
+                                {isPublished ? "Batal Publikasikan" : "Publikasikan"}
                             </DropdownMenuItem>
                             {isPublished && (
                                 <DropdownMenuItem asChild>

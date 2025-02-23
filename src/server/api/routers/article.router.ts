@@ -6,6 +6,7 @@ import {
   getArticlesSchema,
   togglePublishArticleSchema,
   togglePublishArticlesSchema,
+  updateArticleSchema,
 } from "../schemas/article.schema";
 import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
@@ -97,10 +98,26 @@ export const articleRouter = createTRPCRouter({
         },
       });
     }),
+  getEditArticle: adminProcedure
+    .input(getArticleSchema)
+    .query(async ({ ctx, input }) => {
+      return ctx.db.article.findUnique({
+        where: {
+          id: input.id,
+        },
+        include: {
+          author: {
+            select: {
+              image: true,
+              name: true,
+            },
+          },
+        },
+      });
+    }),
   createArticle: adminProcedure
     .input(createArticleSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log(input);
       return ctx.db.article.create({
         data: {
           ...input,
@@ -241,6 +258,44 @@ export const articleRouter = createTRPCRouter({
           views: {
             increment: 1,
           },
+        },
+      });
+    }),
+  updateArticle: adminProcedure
+    .input(updateArticleSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+      const article = await ctx.db.article.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!article) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Artikel tidak ditemukan",
+        });
+      }
+
+      // if thumbnail is updated or removed, delete the old thumbnail in uploadthing
+      if (data.thumbnailKey && article.thumbnailKey !== data.thumbnailKey) {
+        if (article.thumbnailKey) {
+          await utapi.deleteFiles([article.thumbnailKey]);
+        }
+      } else if (!data.thumbnailKey && article.thumbnailKey) {
+        await utapi.deleteFiles([article.thumbnailKey]);
+      }
+
+      return ctx.db.article.update({
+        where: {
+          id,
+        },
+        data: {
+          ...data,
+          // * if thumbnail is removed, set thumbnailKey to null. because if undefined, it will not be updated
+          thumbnailKey: data.thumbnailKey ?? null,
+          updatedAt: new Date(),
         },
       });
     }),

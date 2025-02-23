@@ -20,6 +20,18 @@ export const createArticleSchema = z.object({
   thumbnailKey: z.string().optional(),
 });
 
+export const updateArticleSchema = z.object({
+  id: z.string(),
+  title: z.string().min(8, "Judul artikel minimal 8 karakter").optional(),
+  content: z
+    .string()
+    .min(100, "Konten artikel minimal 100 karakter")
+    .optional(),
+  isPublished: z.boolean().default(false).optional(),
+  thumbnail: z.string().url("Thumbnail harus berupa link").optional(),
+  thumbnailKey: z.string().optional(),
+});
+
 export const togglePublishArticleSchema = z.object({
   id: z.string(),
   isPublished: z.boolean(),

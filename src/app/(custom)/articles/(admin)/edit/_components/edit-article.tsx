@@ -11,17 +11,17 @@ import { MinimalTiptapEditor } from "~/components/minimal-tiptap";
 import { type ArticleWithUser } from "~/types/article.type";
 import { type UseFormReturn } from "react-hook-form";
 import { type z } from "zod";
-import { type createArticleSchema } from "~/server/api/schemas/article.schema";
+import { type updateArticleSchema } from "~/server/api/schemas/article.schema";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { useSession } from "next-auth/react";
 
 interface ArticleProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    form?: UseFormReturn<z.infer<typeof createArticleSchema>, any, undefined>;
+    form?: UseFormReturn<z.infer<typeof updateArticleSchema>, any, undefined>;
     article: ArticleWithUser;
 }
 
-export const ArticleComponent = ({ article, form }: ArticleProps) => {
+export const EditArticle = ({ article, form }: ArticleProps) => {
     const { title, content, thumbnail, views, isPublished, likes, author, createdAt, updatedAt, publishedAt } = article;
     const { data: session } = useSession();
 
@@ -32,7 +32,6 @@ export const ArticleComponent = ({ article, form }: ArticleProps) => {
             {isAdmin && (
                 <IsPublishedBadge isPublished={isPublished ?? false} />
             )}
-            {/* prevent h1 to overflow */}
             <div className="w-full break-words">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
                     {title.trim() === "" ? "Judul artikel" : title}
