@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: rizkyfauziilmi
+      POSTGRES_PASSWORD: K8y6r200a4
+      POSTGRES_DB: ptm
+    ports:
+      - "5432:5432"

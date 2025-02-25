@@ -6,6 +6,9 @@
   "scripts": {
     "build": "next build",
     "check": "next lint && tsc --noEmit",
+    "db:start": "docker compose up -d",
+    "db:stop": "docker compose down",
+    "db:restart": "docker compose restart",
     "db:generate": "prisma migrate dev",
     "db:migrate": "prisma migrate deploy",
     "db:push": "prisma db push",
