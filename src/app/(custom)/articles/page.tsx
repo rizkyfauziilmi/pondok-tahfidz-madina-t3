@@ -12,7 +12,7 @@ import {
     SelectValue,
 } from "~/components/ui/select"
 import { ArticleCard } from "./_components/article-card";
-import { ArticleCardSkeleton } from "./_components/article-card-skeleton";
+import { ArticleCardSkeleton } from "../../../components/skeletons/article-card-skeleton";
 import { ArticlesError } from "./_components/articles-error";
 import { useDebounceCallback } from "usehooks-ts";
 import { useState, type ChangeEvent } from "react";

@@ -15,7 +15,7 @@ export const getArticlesSchema = z.object({
 export const createArticleSchema = z.object({
   title: z.string().min(8, "Judul artikel minimal 8 karakter"),
   content: z.string().min(100, "Konten artikel minimal 100 karakter"),
-  isPublished: z.boolean().default(false),
+  isPublished: z.boolean().default(true),
   thumbnail: z.string().url("Thumbnail harus berupa link"),
   thumbnailKey: z.string().optional(),
 });

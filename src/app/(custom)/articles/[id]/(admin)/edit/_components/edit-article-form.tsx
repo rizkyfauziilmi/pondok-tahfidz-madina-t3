@@ -11,7 +11,7 @@ import { Switch } from "~/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { Cog, LoaderCircle, MoreVertical, PencilLine, X } from "lucide-react";
+import { ChevronLeft, Cog, LoaderCircle, MoreVertical, PencilLine, X } from "lucide-react";
 import { UploadDropzone } from "~/utils/uploadthing";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "~/components/ui/tabs";
 import { api } from "~/trpc/react";
@@ -38,6 +38,7 @@ import prettyBytes from 'pretty-bytes';
 import { cn } from "~/lib/utils";
 import { type ArticleWithUser } from "~/types/article.type";
 import { EditArticle } from "./edit-article";
+import Link from "next/link";
 
 interface EditArticleFormProps {
     article: ArticleWithUser;
@@ -202,7 +203,7 @@ export const EditArticleForm = ({
                                                                 {isDeleteFilesPending ?
                                                                     <LoaderCircle className="size-4 animate-spin" />
                                                                     :
-                                                                    <X className="size-4" />
+                                                                    <X />
                                                                 }
                                                             </Button>
                                                         </div>
@@ -309,7 +310,7 @@ export const EditArticleForm = ({
                         )
                             : (
                                 <>
-                                    <MoreVertical className="size-4" />
+                                    <MoreVertical />
                                     Tindakan
                                 </>
                             )}
@@ -317,7 +318,7 @@ export const EditArticleForm = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuItem onSelect={isSheetOpen.toggle}>
-                        <Cog className="size-4" />
+                        <Cog />
                         Konfigurasi Artikel
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
@@ -341,8 +342,15 @@ export const EditArticleForm = ({
                             void form.handleSubmit(onSubmit)();
                         }}
                     >
-                        {isUpdateArticlePending ? <LoaderCircle className="animate-spin size-4" /> : <PencilLine className="size-4" />}
+                        {isUpdateArticlePending ? <LoaderCircle className="animate-spin" /> : <PencilLine />}
                         {isUpdateArticlePending ? "Memperbarui artikel..." : "Perbarui Artikel"}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link href={`/articles/${article.id}`}>
+                            <ChevronLeft />
+                            Kembali ke artikel
+                        </Link>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

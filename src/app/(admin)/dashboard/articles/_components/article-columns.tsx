@@ -81,7 +81,7 @@ export const articleColumns: ColumnDef<ArticleWithUser>[] = [
         ),
         cell: ({ row }) => {
             return (
-                <div className="text-muted-foreground line-clamp-2 text-xs">
+                <div className="text-muted-foreground w-32 line-clamp-2 text-xs">
                     {row.original.title}
                 </div>
             )
@@ -248,7 +248,7 @@ export const articleColumns: ColumnDef<ArticleWithUser>[] = [
                             <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link href={`/articles/edit/${id}`}>
+                                <Link href={`/articles/${id}/edit`}>
                                     <SquarePen className="size-4" />
                                     Edit
                                 </Link>

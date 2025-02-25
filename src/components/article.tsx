@@ -6,7 +6,7 @@ import { isValidUrl } from "~/lib/cheker";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { nameToFallback } from "~/lib/string";
-import { Eye, ThumbsUp } from "lucide-react";
+import { Eye, LoaderCircle, ThumbsUp } from "lucide-react";
 import { MinimalTiptapEditor } from "~/components/minimal-tiptap";
 import { type ArticleWithUser } from "~/types/article.type";
 import { type UseFormReturn } from "react-hook-form";
@@ -19,9 +19,11 @@ interface ArticleProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form?: UseFormReturn<z.infer<typeof createArticleSchema>, any, undefined>;
     article: ArticleWithUser;
+    incrementViewPending?: boolean;
+    likePending?: boolean;
 }
 
-export const ArticleComponent = ({ article, form }: ArticleProps) => {
+export const ArticleComponent = ({ article, form, incrementViewPending = false, likePending = false }: ArticleProps) => {
     const { title, content, thumbnail, views, isPublished, likes, author, createdAt, updatedAt, publishedAt } = article;
     const { data: session } = useSession();
 
@@ -73,14 +75,18 @@ export const ArticleComponent = ({ article, form }: ArticleProps) => {
                     <small className="text-sm font-medium leading-none">{author.name}</small>
                 </div>
                 <div className="flex gap-4 items-center">
-                    <div className="flex gap-4 items-center text-muted-foreground">
-                        <ThumbsUp className="size-4" />
-                        <span className="text-sm">{likes}</span>
-                    </div>
-                    <div className="flex gap-4 items-center text-muted-foreground">
-                        <Eye className="size-4" />
-                        <span className="text-sm">{views}</span>
-                    </div>
+                    {likePending ? <LoaderCircle className="size-4 animate-spin" /> : (
+                        <div className="flex gap-4 items-center text-muted-foreground">
+                            <ThumbsUp className="size-4" />
+                            <span className="text-sm">{likes}</span>
+                        </div>
+                    )}
+                    {incrementViewPending ? <LoaderCircle className="size-4 animate-spin" /> : (
+                        <div className="flex gap-4 items-center text-muted-foreground">
+                            <Eye className="size-4" />
+                            <span className="text-sm">{views}</span>
+                        </div>
+                    )}
                 </div>
             </div>
             {form ? (

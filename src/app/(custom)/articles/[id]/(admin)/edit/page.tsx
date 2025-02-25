@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { EditArticleForm } from "../_components/edit-article-form";
+import { EditArticleForm } from "./_components/edit-article-form";
 import { redirect } from "next/navigation";
 
 export default async function EditArticlePage({

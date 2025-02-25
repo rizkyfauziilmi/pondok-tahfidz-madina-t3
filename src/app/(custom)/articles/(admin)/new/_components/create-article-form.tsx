@@ -11,7 +11,7 @@ import { Switch } from "~/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { Cog, LoaderCircle, MoreVertical, PencilLine, X } from "lucide-react";
+import { ChevronLeft, Cog, LoaderCircle, MoreVertical, PencilLine, X } from "lucide-react";
 import { UploadDropzone } from "~/utils/uploadthing";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "~/components/ui/tabs";
 import { api } from "~/trpc/react";
@@ -38,6 +38,7 @@ import {
 } from "~/components/ui/dropdown-menu"
 import prettyBytes from 'pretty-bytes';
 import { cn } from "~/lib/utils";
+import Link from "next/link";
 
 export const CreateArticleForm = () => {
     const [activeTab, setActiveTab] = useState<"upload" | "link">("upload");
@@ -72,7 +73,7 @@ export const CreateArticleForm = () => {
         defaultValues: {
             title: "",
             content: "",
-            isPublished: false,
+            isPublished: true,
             thumbnail: "",
             thumbnailKey: undefined,
         }
@@ -193,7 +194,7 @@ export const CreateArticleForm = () => {
                                                                 {isDeleteFilesPending ?
                                                                     <LoaderCircle className="size-4 animate-spin" />
                                                                     :
-                                                                    <X className="size-4" />
+                                                                    <X />
                                                                 }
                                                             </Button>
                                                         </div>
@@ -303,7 +304,7 @@ export const CreateArticleForm = () => {
                         )
                             : (
                                 <>
-                                    <MoreVertical className="size-4" />
+                                    <MoreVertical />
                                     Tindakan
                                 </>
                             )}
@@ -311,7 +312,7 @@ export const CreateArticleForm = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuItem onSelect={isSheetOpen.toggle}>
-                        <Cog className="size-4" />
+                        <Cog />
                         Konfigurasi Artikel
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
@@ -335,9 +336,20 @@ export const CreateArticleForm = () => {
                             void form.handleSubmit(onSubmit)();
                         }}
                     >
-                        {isCreateArticlePending ? <LoaderCircle className="animate-spin size-4" /> : <PencilLine className="size-4" />}
+                        {isCreateArticlePending ? <LoaderCircle className="animate-spin" /> : <PencilLine />}
                         {isCreateArticlePending ? "Membuat artikel..." : "Buat Artikel"}
                     </DropdownMenuItem>
+                    {!form.watch("thumbnailKey") && (
+                        <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                                <Link href="/dashboard/articles">
+                                    <ChevronLeft />
+                                    Kembali ke Dashboard
+                                </Link>
+                            </DropdownMenuItem>
+                        </>
+                    )}
                 </DropdownMenuContent>
             </DropdownMenu>
 

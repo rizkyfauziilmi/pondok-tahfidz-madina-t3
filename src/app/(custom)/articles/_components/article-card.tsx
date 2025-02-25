@@ -39,7 +39,7 @@ export const ArticleCard = ({ article }: ArticleCardProps) => {
                         {article.title}
                     </Link>
                 </h2>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between gap-2 items-center">
                     <div className="flex items-center gap-2">
                         <Avatar>
                             <AvatarImage src={article.author.image ?? "https://avatar.iran.liara.run/public"} alt={article.author.name ?? ""} />
