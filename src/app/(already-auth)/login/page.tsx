@@ -49,6 +49,7 @@ export default function Login() {
                         <Button
                             variant="outline"
                             className="w-full"
+                            disabled
                             onClick={() => signInWithProvider("facebook")}
                         >
                             <Facebook />
@@ -57,6 +58,7 @@ export default function Login() {
                         <Button
                             variant="outline"
                             className="w-full"
+                            disabled
                             onClick={() => signInWithProvider("instagram")}
                         >
                             <Instagram />
@@ -65,6 +67,7 @@ export default function Login() {
                         <Button
                             variant="outline"
                             className="w-full"
+                            disabled
                             onClick={() => signInWithProvider("tiktok")}
                         >
                             <TiktokIcon />
