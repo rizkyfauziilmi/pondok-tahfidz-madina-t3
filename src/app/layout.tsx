@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "Pondok Tahfidz Madina",
 };
 
+// TODO : add responsive
+// TODO : improve SEO
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

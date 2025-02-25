@@ -43,6 +43,7 @@ export const articleRouter = createTRPCRouter({
           isPublished: true,
           title: {
             contains: search,
+            mode: "insensitive",
           },
         },
         orderBy: {
