@@ -3,7 +3,7 @@
 import { Button } from "~/components/ui/button"
 import { Search, RefreshCw } from "lucide-react"
 
-interface ArticlesErrorProps {
+interface ErrorDisplayProps {
     icon?: React.ReactNode
     iconButton?: React.ReactNode
     title?: string
@@ -12,14 +12,14 @@ interface ArticlesErrorProps {
     buttonText?: string
 }
 
-export const ArticlesError = ({
+export const ErrorDisplay = ({
     icon = <Search className="h-16 w-16 text-muted-foreground" />,
     iconButton = <RefreshCw className="h-4 w-4 mr-2" />,
     title = "Terjadi kesalahan",
     message = "Tidak dapat memuat data. Silahkan coba lagi.",
     onReset,
     buttonText,
-}: ArticlesErrorProps) => {
+}: ErrorDisplayProps) => {
     return (
         <div className="flex flex-col items-center h-screen justify-center text-center">
             <div className="rounded-full bg-muted p-4 mb-4">

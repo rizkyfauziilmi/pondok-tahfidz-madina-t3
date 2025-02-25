@@ -22,7 +22,7 @@ const programList: ProgramProps[] = [
         logo: "/images/tk-alam.png",
         link: "tk-alam", isComponent: false
     },
-    { title: "Santri Mandiri", logo: "/images/logo.png", link: "santri-mandiri", isComponent: false },
+    { title: "Artikel Pondok", logo: "/images/article.png", link: "articles", isComponent: false },
     {
         title: "Sedekah Air",
         logo: "/images/sumur-air.png",
@@ -30,9 +30,9 @@ const programList: ProgramProps[] = [
         isComponent: false,
     },
     {
-        title: "Artikel Pondok",
+        title: "Wirausaha Pondok",
         logo: "/images/wirausaha-pondok.png",
-        link: "articles",
+        link: "wirausaha-pondok",
         isComponent: false,
     },
     {
@@ -45,7 +45,7 @@ const Program = ({ title, logo, link, isComponent }: ProgramProps) => {
     if (link && !isComponent) {
         return (
             <Link href={link}>
-                <div className="flex flex-col h-28 md:h-fit hover:shadow-2xl shadow-primary group transition-all duration-300 cursor-pointer border-[#f7af2e] justify-center items-center border-[1px] rounded-xl p-4">
+                <div className="flex flex-col h-28 md:h-fit hover:shadow-2xl shadow-primary group transition-all duration-300 cursor-pointer border-[#f7af2e] justify-center items-center border-[1px] rounded-xl p-4 text-nowrap">
                     <Image
                         src={logo ?? ""}
                         alt={`logo-${title}`}

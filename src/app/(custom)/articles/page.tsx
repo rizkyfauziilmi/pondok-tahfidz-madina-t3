@@ -13,7 +13,7 @@ import {
 } from "~/components/ui/select"
 import { ArticleCard } from "./_components/article-card";
 import { ArticleCardSkeleton } from "../../../components/skeletons/article-card-skeleton";
-import { ArticlesError } from "./_components/articles-error";
+import { ErrorDisplay } from "~/components/error-display";
 import { useDebounceCallback } from "usehooks-ts";
 import { useState, type ChangeEvent } from "react";
 import { useSession } from "next-auth/react";
@@ -71,7 +71,7 @@ export default function Articles() {
     if (error) {
         const mustCreateArticle = error.data?.code === "NOT_FOUND" && session?.user.isAdmin;
 
-        return <ArticlesError
+        return <ErrorDisplay
             title="Terjadi Kesalahan"
             message={mustCreateArticle ? "Anda belum memiliki artikel, silahkan buat artikel atau kelola artikel Anda" : error.message}
             onReset={mustCreateArticle ? () => router.push("/dashboard/articles") : refetch}
@@ -146,7 +146,7 @@ export default function Articles() {
                             <ArticleCardSkeleton key={index} />
                         ))}
                     </div>
-                ) : articles.length === 0 ? <ArticlesError
+                ) : articles.length === 0 ? <ErrorDisplay
                     onReset={onReset}
                     buttonText="Reset Pencarian"
                     title="Tidak Ada Hasil"
