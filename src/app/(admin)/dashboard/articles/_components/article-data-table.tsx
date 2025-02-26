@@ -124,7 +124,7 @@ export function ArticleDataTable<TData, TValue>({
 
     return (
         <div className="w-full">
-            <div className="flex items-center justify-between py-4">
+            <div className="flex md:items-center flex-col-reverse gap-4 md:gap-0 md:flex-row justify-between py-4">
                 <Input
                     placeholder="Cari judul artikel..."
                     value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}

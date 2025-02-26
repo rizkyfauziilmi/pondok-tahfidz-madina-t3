@@ -11,6 +11,7 @@ import Link from "next/link";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "~/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { type ArticleWithUser } from "~/types/article.type";
+import { useRouter } from "next/navigation";
 
 interface ArticleProps {
     article: ArticleWithUser;
@@ -19,11 +20,12 @@ interface ArticleProps {
 export const Article = ({
     article
 }: ArticleProps) => {
+    const router = useRouter();
     const { data: session } = useSession();
     const isAdmin = session?.user.isAdmin;
 
     const utils = api.useUtils();
-    const { mutate: incrementView, isPending: incrementViewPending } = api.articleRouter.incrementView.useMutation({
+    const { mutate: incrementView } = api.articleRouter.incrementView.useMutation({
         async onSuccess() {
             await utils.articleRouter.invalidate();
         },
@@ -36,6 +38,7 @@ export const Article = ({
         async onSuccess() {
             await utils.articleRouter.invalidate();
             toast.success("Artikel berhasil dihapus");
+            void router.push("/articles");
         },
         onError(error) {
             toast.error("Gagal menghapus artikel", {
@@ -51,7 +54,7 @@ export const Article = ({
 
     return (
         <div className="relative">
-            <ArticleComponent article={article} incrementViewPending={incrementViewPending} />
+            <ArticleComponent article={article} />
             {isAdmin && (
                 <AlertDialog>
                     <DropdownMenu>

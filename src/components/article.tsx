@@ -6,7 +6,7 @@ import { isValidUrl } from "~/lib/cheker";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { nameToFallback } from "~/lib/string";
-import { Eye, LoaderCircle, ThumbsUp } from "lucide-react";
+import { Eye, ThumbsUp } from "lucide-react";
 import { MinimalTiptapEditor } from "~/components/minimal-tiptap";
 import { type ArticleWithUser } from "~/types/article.type";
 import { type UseFormReturn } from "react-hook-form";
@@ -19,11 +19,9 @@ interface ArticleProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form?: UseFormReturn<z.infer<typeof createArticleSchema>, any, undefined>;
     article: ArticleWithUser;
-    incrementViewPending?: boolean;
-    likePending?: boolean;
 }
 
-export const ArticleComponent = ({ article, form, incrementViewPending = false, likePending = false }: ArticleProps) => {
+export const ArticleComponent = ({ article, form }: ArticleProps) => {
     const { title, content, thumbnail, views, isPublished, likes, author, createdAt, updatedAt, publishedAt } = article;
     const { data: session } = useSession();
 
@@ -57,7 +55,7 @@ export const ArticleComponent = ({ article, form, incrementViewPending = false, 
                     </div>
                 ) : moment().locale('id').fromNow()}
             </div>
-            <div className="w-full h-96 mb-6 relative">
+            <div className="w-full h-56 md:h-96 mb-6 relative">
                 {thumbnail && isValidUrl(thumbnail) ? (
                     <Image src={thumbnail} alt="thumbnail" fill quality={100} priority className="rounded-lg my-6" />
                 ) : (
@@ -75,18 +73,14 @@ export const ArticleComponent = ({ article, form, incrementViewPending = false, 
                     <small className="text-sm font-medium leading-none">{author.name}</small>
                 </div>
                 <div className="flex gap-4 items-center">
-                    {likePending ? <LoaderCircle className="size-4 animate-spin" /> : (
-                        <div className="flex gap-4 items-center text-muted-foreground">
-                            <ThumbsUp className="size-4" />
-                            <span className="text-sm">{likes}</span>
-                        </div>
-                    )}
-                    {incrementViewPending ? <LoaderCircle className="size-4 animate-spin" /> : (
-                        <div className="flex gap-4 items-center text-muted-foreground">
-                            <Eye className="size-4" />
-                            <span className="text-sm">{views}</span>
-                        </div>
-                    )}
+                    <div className="flex gap-4 items-center text-muted-foreground">
+                        <ThumbsUp className="size-4" />
+                        <span className="text-sm">{likes}</span>
+                    </div>
+                    <div className="flex gap-4 items-center text-muted-foreground">
+                        <Eye className="size-4" />
+                        <span className="text-sm">{views}</span>
+                    </div>
                 </div>
             </div>
             {form ? (

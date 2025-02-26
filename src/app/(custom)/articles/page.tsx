@@ -90,7 +90,7 @@ export default function Articles() {
         <div className="container mx-auto p-8">
             <h1 className="text-3xl font-bold mb-8">Artikel Pondok</h1>
             <div className="mb-6">
-                <div className="flex justify-between items-center">
+                <div className="flex md:flex-row flex-col-reverse gap-4 md:gap-0 justify-between md:items-center">
                     <Input
                         value={searchValue}
                         onChange={onSearchChange}
@@ -151,6 +151,7 @@ export default function Articles() {
                     buttonText="Reset Pencarian"
                     title="Tidak Ada Hasil"
                     message="Tidak ada artikel yang cocok dengan kriteria pencarian Anda"
+                    heightVariant="padding"
                 /> : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {articles.map((article) => (

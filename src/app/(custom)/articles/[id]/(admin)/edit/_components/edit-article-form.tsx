@@ -21,8 +21,10 @@ import { type z } from "zod";
 import { isValidUrl } from "~/lib/cheker";
 import {
     Sheet,
+    SheetClose,
     SheetContent,
     SheetDescription,
+    SheetFooter,
     SheetHeader,
     SheetTitle,
 } from "~/components/ui/sheet"
@@ -279,6 +281,11 @@ export const EditArticleForm = ({
 
                         </form>
                     </Form >
+                    <SheetFooter>
+                        <SheetClose asChild>
+                            <Button variant="secondary">Tutup</Button>
+                        </SheetClose>
+                    </SheetFooter>
                 </SheetContent>
             </Sheet>
             <EditArticle
@@ -354,7 +361,6 @@ export const EditArticleForm = ({
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-
         </div>
     );
 }

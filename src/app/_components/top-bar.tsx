@@ -1,7 +1,5 @@
 "use client";
 
-import { ModeToggle } from "~/components/mode-toggle";
-import { ModeToggleFull } from "~/components/mode-toggle-full";
 import { Button } from "~/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescription } from "~/components/ui/sheet";
 import { cn } from "~/lib/utils";
@@ -88,8 +86,8 @@ export const TopBar = () => {
                     </Button>
                 </SheetTrigger>
                 <SheetContent>
-                    <div className="flex flex-col justify-between h-full">
-                        <div>
+                    <div className="flex flex-col h-full">
+                        <div className="flex-1">
                             <SheetHeader>
                                 <SheetTitle>
                                     Menu
@@ -104,7 +102,6 @@ export const TopBar = () => {
                                 ))}
                             </div>
                         </div>
-                        <ModeToggleFull />
                         <UserButton />
                     </div>
                 </SheetContent>
@@ -113,7 +110,6 @@ export const TopBar = () => {
                 {dataLink.map((data) => (
                     <RenderLink data={data} key={data.id ?? data.link} />
                 ))}
-                <ModeToggle />
                 <UserButton />
             </div>
         </div>

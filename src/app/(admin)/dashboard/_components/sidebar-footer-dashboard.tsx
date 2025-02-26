@@ -11,10 +11,10 @@ import { cn } from "~/lib/utils";
 
 export const SidebarFooterDashboard = () => {
   const { data: session } = useSession();
-  const { setTheme, theme: currentTheme } = useTheme();
   const {
     open,
   } = useSidebar();
+  const { setTheme, theme: currentTheme } = useTheme();
 
   const themeIconMap = {
     'dark': <Moon />,

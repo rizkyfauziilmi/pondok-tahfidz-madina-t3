@@ -23,14 +23,14 @@ export function DataTablePagination<TData>({
     table,
 }: DataTablePaginationProps<TData>) {
     return (
-        <div className="flex items-center justify-between px-2 mt-2">
+        <div className="flex flex-col-reverse gap-2 md:gap-0 md:flex-row md:items-center justify-between px-2 mt-2">
             <div className="flex-1 text-sm text-muted-foreground">
                 {table.getFilteredSelectedRowModel().rows.length} dari{" "}
                 {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>
             <div className="flex items-center space-x-6 lg:space-x-8">
                 <div className="flex items-center space-x-2">
-                    <p className="text-sm font-medium">Baris per halaman</p>
+                    <p className="md:text-sm text-xs font-medium">Baris per halaman</p>
                     <Select
                         value={`${table.getState().pagination.pageSize}`}
                         onValueChange={(value) => {
@@ -49,7 +49,7 @@ export function DataTablePagination<TData>({
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="flex items-center justify-center text-sm font-medium">
+                <div className="flex items-center justify-center text-xs md:text-sm font-medium">
                     {`Halaman ${table.getState().pagination.pageIndex + 1} dari ${table.getPageCount()}`}
                 </div>
                 <div className="flex items-center space-x-2">

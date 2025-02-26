@@ -2,6 +2,7 @@
 
 import { Button } from "~/components/ui/button"
 import { Search, RefreshCw } from "lucide-react"
+import { cn } from "~/lib/utils"
 
 interface ErrorDisplayProps {
     icon?: React.ReactNode
@@ -10,6 +11,7 @@ interface ErrorDisplayProps {
     message?: string
     onReset?: () => void
     buttonText?: string
+    heightVariant?: "full" | "padding"
 }
 
 export const ErrorDisplay = ({
@@ -19,9 +21,12 @@ export const ErrorDisplay = ({
     message = "Tidak dapat memuat data. Silahkan coba lagi.",
     onReset,
     buttonText,
+    heightVariant = "full",
 }: ErrorDisplayProps) => {
     return (
-        <div className="flex flex-col items-center h-screen justify-center text-center">
+        <div className={cn(
+            heightVariant === "full" ? "h-screen" : "mt-24",
+            "flex flex-col items-center px-4 md:px-0 justify-center text-center")}>
             <div className="rounded-full bg-muted p-4 mb-4">
                 {icon}
             </div>
