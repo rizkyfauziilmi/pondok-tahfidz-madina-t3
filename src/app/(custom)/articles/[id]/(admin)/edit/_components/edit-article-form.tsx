@@ -96,6 +96,24 @@ export const EditArticleForm = ({
         }
     }
 
+    const {
+        mutate: deleteFilesMutation,
+        isPending: isDeleteFilesPending,
+    } = api.utapiRouter.deleteFiles.useMutation({
+        onSuccess(data) {
+            toast.success("Gambar berhasil dihapus", {
+                description: `Menghapus ${data.deletedCount} gambar`,
+            });
+            form.setValue("thumbnail", "");
+            form.setValue("thumbnailKey", undefined);
+        },
+        onError(error) {
+            toast.error("Gagal menghapus gambar", {
+                description: error.message,
+            });
+        }
+    });
+
     const uploadSoonerId = "upload-sooner";
     const isUploading = toast.getToasts().some((toast) => toast.id === uploadSoonerId);
 
@@ -146,8 +164,16 @@ export const EditArticleForm = ({
                                             Thumbnail Artikel
                                         </FormLabel>
                                         <Tabs value={activeTab} className="w-full" onValueChange={(value) => {
-                                            form.setValue("thumbnail", "");
-                                            form.setValue("thumbnailKey", undefined);
+                                            const thumbnailKey = form.getValues("thumbnailKey");
+                                            // * handle when user change tab and thumbnail is not the same as article thumbnail
+                                            if (value !== "upload" && thumbnailKey && thumbnailKey !== article.thumbnailKey) {
+                                                deleteFilesMutation({ ids: thumbnailKey });
+                                                return
+                                            } else {
+                                                form.setValue("thumbnail", "");
+                                                form.setValue("thumbnailKey", undefined);
+                                            }
+
                                             setActiveTab(value as "upload" | "link");
                                         }}>
                                             <TabsList>
@@ -162,14 +188,25 @@ export const EditArticleForm = ({
                                                             <Button
                                                                 type="button"
                                                                 size="icon"
-                                                                variant="destructive"
+                                                                disabled={isDeleteFilesPending}
+                                                                variant={isDeleteFilesPending ? "secondary" : "destructive"}
                                                                 className="absolute top-2 right-2 rounded-full"
                                                                 onClick={() => {
-                                                                    form.setValue("thumbnail", "");
-                                                                    form.setValue("thumbnailKey", undefined);
+                                                                    const thumbnailKey = form.getValues("thumbnailKey");
+                                                                    // * handle when user delete thumbnail
+                                                                    if (thumbnailKey && thumbnailKey !== article.thumbnailKey) {
+                                                                        deleteFilesMutation({ ids: thumbnailKey })
+                                                                    } else {
+                                                                        form.setValue("thumbnail", "");
+                                                                        form.setValue("thumbnailKey", undefined);
+                                                                    }
                                                                 }}
                                                             >
-                                                                <X />
+                                                                {isDeleteFilesPending ?
+                                                                    <LoaderCircle className="size-4 animate-spin" />
+                                                                    :
+                                                                    <X />
+                                                                }
                                                             </Button>
                                                         </div>
                                                     ) : (
