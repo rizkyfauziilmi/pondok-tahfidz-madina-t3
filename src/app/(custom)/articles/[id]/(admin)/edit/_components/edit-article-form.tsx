@@ -96,24 +96,6 @@ export const EditArticleForm = ({
         }
     }
 
-    const {
-        mutate: deleteFilesMutation,
-        isPending: isDeleteFilesPending,
-    } = api.utapiRouter.deleteFiles.useMutation({
-        onSuccess(data) {
-            toast.success("Gambar berhasil dihapus", {
-                description: `Menghapus ${data.deletedCount} gambar`,
-            });
-            form.setValue("thumbnail", "");
-            form.setValue("thumbnailKey", undefined);
-        },
-        onError(error) {
-            toast.error("Gagal menghapus gambar", {
-                description: error.message,
-            });
-        }
-    });
-
     const uploadSoonerId = "upload-sooner";
     const isUploading = toast.getToasts().some((toast) => toast.id === uploadSoonerId);
 
@@ -128,7 +110,7 @@ export const EditArticleForm = ({
                 <SheetContent side="left" className="h-screen overflow-y-auto space-y-6 w-full md:w-1/2">
                     <SheetHeader>
                         <SheetTitle>
-                            Edit Artikel {JSON.stringify(form.watch("thumbnailKey"))}
+                            Edit Artikel
                         </SheetTitle>
                         <SheetDescription>
                             Artikel akan diperbarui
@@ -164,17 +146,8 @@ export const EditArticleForm = ({
                                             Thumbnail Artikel
                                         </FormLabel>
                                         <Tabs value={activeTab} className="w-full" onValueChange={(value) => {
-                                            if (value !== "upload" && form.watch("thumbnailKey")) {
-                                                const thumbnailKey = form.getValues("thumbnailKey");
-                                                if (thumbnailKey) {
-                                                    deleteFilesMutation({ ids: thumbnailKey });
-                                                }
-                                                return
-                                            } else {
-                                                form.setValue("thumbnail", "");
-                                                form.setValue("thumbnailKey", undefined);
-                                            }
-
+                                            form.setValue("thumbnail", "");
+                                            form.setValue("thumbnailKey", undefined);
                                             setActiveTab(value as "upload" | "link");
                                         }}>
                                             <TabsList>
@@ -189,24 +162,14 @@ export const EditArticleForm = ({
                                                             <Button
                                                                 type="button"
                                                                 size="icon"
-                                                                disabled={isDeleteFilesPending}
-                                                                variant={isDeleteFilesPending ? "secondary" : "destructive"}
+                                                                variant="destructive"
                                                                 className="absolute top-2 right-2 rounded-full"
                                                                 onClick={() => {
-                                                                    const thumbnailKey = form.getValues("thumbnailKey");
-                                                                    if (thumbnailKey && thumbnailKey !== article.thumbnailKey) {
-                                                                        deleteFilesMutation({ ids: thumbnailKey })
-                                                                    } else {
-                                                                        form.setValue("thumbnail", "");
-                                                                        form.setValue("thumbnailKey", undefined);
-                                                                    }
+                                                                    form.setValue("thumbnail", "");
+                                                                    form.setValue("thumbnailKey", undefined);
                                                                 }}
                                                             >
-                                                                {isDeleteFilesPending ?
-                                                                    <LoaderCircle className="size-4 animate-spin" />
-                                                                    :
-                                                                    <X />
-                                                                }
+                                                                <X />
                                                             </Button>
                                                         </div>
                                                     ) : (
