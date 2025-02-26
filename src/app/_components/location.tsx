@@ -26,7 +26,7 @@ export const Location = () => {
           Bandung Barat, Jawa Barat 40556
         </p>
       </div>
-      <div className="relative w-5/6">
+      <div className="relative md:w-5/6">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.0116258197904!2d107.456204!3d-6.7684356999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6903001315f57b%3A0x838f661d216b27b3!2sPondok%20Pesantren%20Madina!5e0!3m2!1sid!2sid!4v1726213113763!5m2!1sid!2sid"
           height="450"
