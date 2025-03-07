@@ -15,6 +15,15 @@ import { UTApi } from "uploadthing/server";
 const utapi = new UTApi();
 
 export const articleRouter = createTRPCRouter({
+  getIsAnyArticlePublished: publicProcedure.query(async ({ ctx }) => {
+    return (
+      (await ctx.db.article.count({
+        where: {
+          isPublished: true,
+        },
+      })) > 0
+    );
+  }),
   getDashboardArticles: adminProcedure.query(async ({ ctx }) => {
     return ctx.db.article.findMany({
       orderBy: {
@@ -33,7 +42,7 @@ export const articleRouter = createTRPCRouter({
   getArticles: publicProcedure
     .input(getArticlesSchema)
     .query(async ({ ctx, input }) => {
-      const { search, orderBy, orderDirection } = input;
+      const { search, orderBy, orderDirection, limit, bypassErrors } = input;
       // default = { search: '', orderBy: 'publishedAt', orderDirection: 'desc' }
       const isDefaultSearch =
         search === "" && orderBy === "publishedAt" && orderDirection === "desc";
@@ -61,11 +70,12 @@ export const articleRouter = createTRPCRouter({
             },
           },
         },
+        take: limit,
       });
 
       const isNotFound = isDefaultSearch && articles.length === 0;
 
-      if (isNotFound) {
+      if (isNotFound && !bypassErrors) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message:

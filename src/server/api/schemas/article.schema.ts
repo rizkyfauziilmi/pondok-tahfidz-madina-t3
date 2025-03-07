@@ -10,6 +10,8 @@ export const getArticlesSchema = z.object({
     .enum(["publishedAt", "updatedAt", "title", "views", "likes"])
     .default("publishedAt"),
   orderDirection: z.enum(["asc", "desc"]).default("desc"),
+  limit: z.number().min(1).optional(),
+  bypassErrors: z.boolean().default(false),
 });
 
 export const createArticleSchema = z.object({
