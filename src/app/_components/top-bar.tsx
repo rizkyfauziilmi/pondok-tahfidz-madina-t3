@@ -96,42 +96,30 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
             <Button
               size="icon"
               variant="ghost"
-              className="flex bg-transparent text-white shadow-none hover:bg-transparent hover:text-white hover:shadow-none md:hidden"
+              className="flex bg-transparent text-white shadow-none hover:bg-transparent hover:text-white hover:shadow-none"
               onClick={() => setIsOpen(true)}
             >
-              <Menu className="size-4" />
+              <Menu />
             </Button>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent className="w-[400px] overflow-auto sm:w-[540px]">
+            <SheetHeader>
+              <SheetTitle>Menu</SheetTitle>
+              <SheetDescription>
+                Menu navigasi untuk memudahkan Anda dalam menjelajahi website
+                kami.
+              </SheetDescription>
+            </SheetHeader>
             <div className="flex h-full flex-col">
-              <div className="flex-1">
-                <SheetHeader>
-                  <SheetTitle>Menu</SheetTitle>
-                  <SheetDescription>
-                    Menu navigasi untuk memudahkan Anda dalam menjelajahi
-                    website kami.
-                  </SheetDescription>
-                </SheetHeader>
-                <div className="flex flex-col gap-4 pt-4">
-                  {dataLink.map((data) => (
-                    <RenderLink
-                      data={data}
-                      key={data.id ?? data.link}
-                      isSheet
-                    />
-                  ))}
-                </div>
+              <div className="flex flex-1 flex-col gap-4 pt-4">
+                {dataLink.map((data) => (
+                  <RenderLink data={data} key={data.id ?? data.link} isSheet />
+                ))}
               </div>
               <UserButton />
             </div>
           </SheetContent>
         </Sheet>
-        <div className="hidden items-center gap-8 md:flex">
-          {dataLink.map((data) => (
-            <RenderLink data={data} key={data.id ?? data.link} />
-          ))}
-          <UserButton />
-        </div>
       </div>
     </div>
   );

@@ -37,26 +37,27 @@ import { BecomeUserAlertDialog } from "./dialogs/become-user-alert-dialog";
 import { UpdateAdminPasswordDialog } from "./dialogs/update-admin-password-dialog";
 import { Badge } from "./ui/badge";
 import { useRouter } from "next/navigation";
-import { useMediaQuery } from "usehooks-ts";
 import { useTheme } from "next-themes";
 
 export const UserButton = () => {
-  const [adminPassword] = api.adminPasswordRouter.getCurrent.useSuspenseQuery(undefined, {
-    retry: false
-  });
+  const [adminPassword] = api.adminPasswordRouter.getCurrent.useSuspenseQuery(
+    undefined,
+    {
+      retry: false,
+    },
+  );
   const { data: session } = useSession();
   const setAdminPSDialog = useBoolean(false);
   const becomeAdminDialog = useBoolean(false);
   const becomeUserAlertDialog = useBoolean(false);
   const updateAdminPasswordDialog = useBoolean(false);
   const router = useRouter();
-  const isMobile = useMediaQuery("(max-width: 640px)");
   const { setTheme, theme: currentTheme } = useTheme();
 
   const themeIconMap = {
-    'dark': <Moon />,
-    'light': <Sun />,
-    'system': <Monitor />,
+    dark: <Moon />,
+    light: <Sun />,
+    system: <Monitor />,
   };
 
   if (!session) {
@@ -73,70 +74,56 @@ export const UserButton = () => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          {isMobile ? (
-            <Button className="justify-start px-2" variant="outline">
+          <Button
+            className="justify-start px-2 md:justify-between"
+            variant="outline"
+          >
+            <div className="flex items-center gap-2">
               <Avatar className="size-6">
                 <AvatarImage
-                  src={session.user.image ?? "https://avatar.iran.liara.run/public"}
+                  src={
+                    session.user.image ?? "https://avatar.iran.liara.run/public"
+                  }
                 />
                 <AvatarFallback>
                   {nameToFallback(session.user.name ?? "Anonymous")}
                 </AvatarFallback>
               </Avatar>
-              <span className="text-sm">
-                {session.user.name}
-              </span>
-              {isAdmin ? (
-                <Badge variant="admin">
-                  Admin
-                </Badge>
-              ) : (
-                <Badge>
-                  Pengguna
-                </Badge>
-              )}
-            </Button>
-          ) : (
-            <Avatar>
-              <AvatarImage
-                src={session.user.image ?? "https://avatar.iran.liara.run/public"}
-              />
-              <AvatarFallback>
-                {nameToFallback(session.user.name ?? "Anonymous")}
-              </AvatarFallback>
-            </Avatar>
-          )}
+              <span className="text-sm">{session.user.name}</span>
+            </div>
+            {isAdmin ? (
+              <Badge variant="admin">Admin</Badge>
+            ) : (
+              <Badge>Pengguna</Badge>
+            )}
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            {!isMobile && (
-              <DropdownMenuItem>
-                <Avatar className="size-6">
-                  <AvatarImage
-                    src={session.user.image ?? "https://avatar.iran.liara.run/public"}
-                  />
-                  <AvatarFallback>
-                    {nameToFallback(session.user.name ?? "Anonymous")}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex items-center gap-2">
-                  <small className="text-sm font-medium leading-none">
-                    {session.user.name}
-                  </small>
-                  {isAdmin ? (
-                    <Badge variant="admin">
-                      Admin
-                    </Badge>
-                  ) : (
-                    <Badge>
-                      Pengguna
-                    </Badge>
-                  )}
-                </div>
-              </DropdownMenuItem>
-            )}
+            <DropdownMenuItem>
+              <Avatar className="size-6">
+                <AvatarImage
+                  src={
+                    session.user.image ?? "https://avatar.iran.liara.run/public"
+                  }
+                />
+                <AvatarFallback>
+                  {nameToFallback(session.user.name ?? "Anonymous")}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex items-center gap-2">
+                <small className="text-sm font-medium leading-none">
+                  {session.user.name}
+                </small>
+                {isAdmin ? (
+                  <Badge variant="admin">Admin</Badge>
+                ) : (
+                  <Badge>Pengguna</Badge>
+                )}
+              </div>
+            </DropdownMenuItem>
             {adminPassword ? (
               isAdmin ? (
                 <>
@@ -169,9 +156,7 @@ export const UserButton = () => {
           {isAdmin && (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>
-                Menu Admin
-              </DropdownMenuLabel>
+              <DropdownMenuLabel>Menu Admin</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem onSelect={() => router.push("/dashboard")}>
@@ -183,18 +168,12 @@ export const UserButton = () => {
           )}
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuLabel>
-              Tambahan
-            </DropdownMenuLabel>
+            <DropdownMenuLabel>Tambahan</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
                 <DropdownMenuItem className="p-0">
-                  {
-                    themeIconMap[
-                    currentTheme as "dark" | "light" | "system"
-                    ]
-                  }
+                  {themeIconMap[currentTheme as "dark" | "light" | "system"]}
                   Ganti Tema
                 </DropdownMenuItem>
               </DropdownMenuSubTrigger>
