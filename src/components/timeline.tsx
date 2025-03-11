@@ -23,9 +23,9 @@ export const Timeline = () => {
 
   return (
     <div>
-      <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+      <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
         Timeline Kegiatan Sedekah Air
-      </h3>
+      </h4>
       <Timelines events={events} />
     </div>
   );

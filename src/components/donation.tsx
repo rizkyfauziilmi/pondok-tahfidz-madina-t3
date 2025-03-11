@@ -1,7 +1,7 @@
-import { Button } from "~/components/ui/button";
 import { Progress } from "~/components/ui/progress";
 import { Separator } from "~/components/ui/separator";
-import { HandCoins } from "lucide-react";
+
+import WaterWaqfDonation from "./water-waqf-donation";
 
 export const Donation = () => {
   const terkumpul = 1_000_000;
@@ -15,13 +15,13 @@ export const Donation = () => {
         <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
           Proses Donasi
         </h4>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Sedekah Air Pondok Tahfidz Madina
         </p>
       </div>
       <Separator />
-      <div className="p-4 space-y-2">
-        <div className="p-4 border-[1px] rounded-md space-y-4">
+      <div className="space-y-2 p-4">
+        <div className="space-y-4 rounded-md border-[1px] p-4">
           <p className="text-sm">
             <strong>
               Jumlah Donasi yang sudah terkumpul:{" "}
@@ -41,10 +41,7 @@ export const Donation = () => {
           </p>
           <Progress value={progress} />
         </div>
-        <Button className="w-full bg-[#009e9b] hover:bg-[#00817f]">
-          <HandCoins className="size-4 mr-2" />
-          Donasi Sekarang
-        </Button>
+        <WaterWaqfDonation />
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export const Location = () => {
   return (
     <div
       id="lokasi"
-      className="flex min-h-screen flex-col items-center gap-4 px-4 py-12"
+      className="flex flex-col items-center justify-center gap-4 px-6 md:my-0 md:min-h-screen md:px-0"
     >
       <div>
         <div className="mb-1 flex items-center justify-center gap-2">
@@ -32,7 +32,7 @@ export const Location = () => {
           height="450"
           className={cn(
             !isLoaded && "animate-pulse bg-gray-300 dark:bg-gray-800",
-            "w-full rounded-lg border-0 dark:invert"
+            "w-full rounded-lg border-0 dark:invert",
           )}
           allowFullScreen={false}
           loading="lazy"

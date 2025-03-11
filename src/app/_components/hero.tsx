@@ -15,12 +15,10 @@ import {
   Volume2,
   VolumeOff,
 } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { type OnProgressProps } from "react-player/base";
 import { useMediaQuery } from "usehooks-ts";
-import { WhatsappIcon } from "~/components/svgs/whatsapp-svg";
 
 export const Hero = () => {
   // mobile is below 768px
@@ -31,7 +29,9 @@ export const Hero = () => {
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const playerRef = useRef<ReactPlayer>(null);
   const [opacity, setOpacity] = useState<number>(isMobile ? 1 : 0.8);
-  const [sliderOpacity, setSliderOpacity] = useState<number>(isMobile ? 1 : 0.8);
+  const [sliderOpacity, setSliderOpacity] = useState<number>(
+    isMobile ? 1 : 0.8,
+  );
   const [urlIndex, setUrlIndex] = useState<number>(0);
   const [progress, setProgress] = useState<OnProgressProps>({
     loaded: 0,
@@ -58,6 +58,7 @@ export const Hero = () => {
           label: "Nyalakan Suara",
           onClick: () => setIsMuted(false),
         },
+        closeButton: true,
         position: isMobile ? "top-center" : "bottom-right",
       });
     }
@@ -87,9 +88,8 @@ export const Hero = () => {
   }, []);
 
   return (
-    <div className="relative z-0 flex h-96 w-full items-center justify-center md:h-[550px]">
+    <div className="relative z-0 mt-16 flex h-96 w-full items-center justify-center md:h-[550px]">
       {isMounted && (
-
         <ReactPlayer
           ref={playerRef}
           width="100%"
@@ -115,15 +115,6 @@ export const Hero = () => {
         <div className="z-10 flex h-full w-full flex-col justify-between pb-14 pt-4">
           <div className="md:flex-1">
             <div className="flex items-center justify-between gap-2 px-4 md:gap-4">
-              <Button
-                className="bg-[#2cd46b] font-semibold hover:bg-[#29c263]"
-                asChild
-              >
-                <Link href="https://wa.link/rcd0jf" target="_blank" className="text-white">
-                  <WhatsappIcon className="mr-2 size-4" />
-                  Hubungi Kami
-                </Link>
-              </Button>
               <div
                 className="hidden h-fit flex-1 items-center gap-2 rounded-md bg-background px-2 py-1 md:flex"
                 style={{ opacity: sliderOpacity }}
@@ -138,7 +129,9 @@ export const Hero = () => {
                     {secondsToTime(Number(progress.playedSeconds.toFixed(0)))}
                   </p>
                   <p>/</p>
-                  <p>{secondsToTime(Number((videoDuration ?? 0).toFixed(0)))}</p>
+                  <p>
+                    {secondsToTime(Number((videoDuration ?? 0).toFixed(0)))}
+                  </p>
                 </div>
                 <Slider
                   value={[progress.played * 100]}

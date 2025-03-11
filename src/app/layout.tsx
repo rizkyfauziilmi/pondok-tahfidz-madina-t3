@@ -9,7 +9,7 @@ import { ThemeProvider } from "~/components/theme-provider";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
-import { TooltipProvider } from '~/components/ui/tooltip'
+import { TooltipProvider } from "~/components/ui/tooltip";
 import { TopBar } from "./_components/top-bar";
 import React from "react";
 
@@ -22,6 +22,8 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const isAnyArticlePublished =
+    await api.articleRouter.getIsAnyArticlePublished();
   const session = await auth();
 
   if (session?.user) {
@@ -29,7 +31,11 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className={`${GeistSans.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${GeistSans.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link
@@ -55,7 +61,7 @@ export default async function RootLayout({
             <SessionProvider>
               <TooltipProvider>
                 <HydrateClient>
-                  <TopBar />
+                  <TopBar showArticle={isAnyArticlePublished} />
                 </HydrateClient>
                 {children}
                 <Toaster />
@@ -64,6 +70,6 @@ export default async function RootLayout({
           </ThemeProvider>
         </TRPCReactProvider>
       </body>
-    </html >
+    </html>
   );
 }
