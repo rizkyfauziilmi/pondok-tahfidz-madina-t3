@@ -8,6 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
   SheetDescription,
+  SheetFooter,
 } from "~/components/ui/sheet";
 import { cn } from "~/lib/utils";
 import { useSidebarStore } from "~/stores/sidebar-store";
@@ -16,6 +17,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UserButton } from "~/components/user-button";
+import { ModeToggle } from "~/components/mode-toggle";
+import { useSession } from "next-auth/react";
 
 interface TopBarProps {
   showArticle?: boolean;
@@ -31,6 +34,7 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
   const { isOpen, setIsOpen } = useSidebarStore();
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const dataLink: dataLinkType[] = [
     { title: "Beranda", link: "/" },
@@ -63,8 +67,9 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
     );
   };
 
-  const currentPath = pathname?.split("/")[1] ?? "";
+  const isUserLoggedIn = !!session;
 
+  const currentPath = pathname?.split("/")[1] ?? "";
   const isNotShow = ["dashboard"].includes(currentPath);
 
   if (isNotShow) return null;
@@ -110,14 +115,15 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
                 kami.
               </SheetDescription>
             </SheetHeader>
-            <div className="flex h-full flex-col">
-              <div className="flex flex-1 flex-col gap-4 pt-4">
-                {dataLink.map((data) => (
-                  <RenderLink data={data} key={data.id ?? data.link} isSheet />
-                ))}
-              </div>
-              <UserButton />
+            <div className="mb-2 flex flex-col gap-4">
+              {dataLink.map((data) => (
+                <RenderLink data={data} key={data.id ?? data.link} isSheet />
+              ))}
             </div>
+            <SheetFooter className="items-center">
+              {!isUserLoggedIn && <ModeToggle />}
+              <UserButton />
+            </SheetFooter>
           </SheetContent>
         </Sheet>
       </div>

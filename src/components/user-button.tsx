@@ -75,7 +75,7 @@ export const UserButton = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="justify-start px-2 md:justify-between"
+            className="w-full justify-start px-2 md:justify-between"
             variant="outline"
           >
             <div className="flex items-center gap-2">
