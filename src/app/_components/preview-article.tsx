@@ -47,7 +47,7 @@ export const PreviewArticle = ({ articles }: PreviewArticleProps) => {
               <h4 className="line-clamp-1 scroll-m-20 break-words text-xl font-semibold tracking-tight">
                 {article.title}
               </h4>
-              <p className="line-clamp-2 text-sm text-muted-foreground">
+              <p className="line-clamp-3 text-sm text-muted-foreground">
                 {extractArticleDescription(article.content)}
               </p>
             </CardContent>
