@@ -43,7 +43,7 @@ export const PreviewArticle = ({ articles }: PreviewArticleProps) => {
                 />
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-4">
               <h4 className="line-clamp-1 scroll-m-20 break-words text-xl font-semibold tracking-tight">
                 {article.title}
               </h4>
