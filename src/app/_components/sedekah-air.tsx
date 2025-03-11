@@ -5,7 +5,7 @@ import { Why } from "../../components/why";
 
 export const SedekahAir = () => {
   return (
-    <div className="space-y-4 p-4 md:px-24">
+    <div className="space-y-4 px-6 md:px-24">
       <Introduction />
       <Why />
       <Timeline />

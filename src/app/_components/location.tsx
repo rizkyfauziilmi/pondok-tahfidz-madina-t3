@@ -12,7 +12,7 @@ export const Location = () => {
   return (
     <div
       id="lokasi"
-      className="my-12 flex flex-col items-center justify-center gap-4 px-6 md:my-0 md:min-h-screen md:px-0"
+      className="flex flex-col items-center justify-center gap-4 px-6 md:my-0 md:min-h-screen md:px-0"
     >
       <div>
         <div className="mb-1 flex items-center justify-center gap-2">

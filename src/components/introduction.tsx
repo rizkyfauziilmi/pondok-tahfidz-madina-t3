@@ -61,9 +61,9 @@ export const Introduction = () => {
 
   return (
     <div className="space-y-4">
-      <h2 className="scroll-m-20 pb-2 text-center text-3xl font-semibold tracking-tight first:mt-0">
+      <h1 className="text-center text-lg font-bold md:text-2xl">
         Sedekah Air: Memberi Kehidupan untuk Sesama
-      </h2>
+      </h1>
       <div className="relative mx-auto h-96 max-w-2xl overflow-hidden rounded-md">
         <ReactPlayer
           ref={playerRef}

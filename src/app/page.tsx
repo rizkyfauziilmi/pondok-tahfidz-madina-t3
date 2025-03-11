@@ -15,7 +15,7 @@ export default async function Home() {
   });
 
   return (
-    <div>
+    <div className="space-y-16">
       <Hero />
       <PreviewArticle articles={articles} />
       <SedekahAir />

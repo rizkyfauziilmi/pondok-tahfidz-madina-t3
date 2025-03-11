@@ -26,7 +26,7 @@ export const PreviewArticle = ({ articles }: PreviewArticleProps) => {
   return (
     <div
       id="preview-article"
-      className="mt-12 flex flex-col items-center justify-center px-6 md:my-0 md:min-h-screen md:px-40"
+      className="flex flex-col items-center justify-center px-6 md:my-0 md:min-h-screen md:px-40"
     >
       <h1 className="text-lg font-bold md:text-2xl">Artikel Terkini</h1>
       <div className="relative my-12 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">

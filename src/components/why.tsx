@@ -1,9 +1,9 @@
 export const Why = () => {
   return (
     <div>
-      <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+      <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
         Mengapa Sedekah Air?
-      </h3>
+      </h4>
 
       <p className="leading-7 [&:not(:first-child)]:mt-6">
         <strong>1. Menyediakan Kebutuhan Paling Dasar</strong>
