@@ -63,7 +63,7 @@ export default async function RootLayout({
                 <HydrateClient>
                   <TopBar showArticle={isAnyArticlePublished} />
                 </HydrateClient>
-                {children}
+                <div className="mt-16">{children}</div>
                 <Toaster />
               </TooltipProvider>
             </SessionProvider>

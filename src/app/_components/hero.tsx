@@ -88,7 +88,7 @@ export const Hero = () => {
   }, []);
 
   return (
-    <div className="relative z-0 mt-16 flex h-96 w-full items-center justify-center md:h-[550px]">
+    <div className="relative z-0 flex h-96 w-full items-center justify-center md:h-[550px]">
       {isMounted && (
         <ReactPlayer
           ref={playerRef}
