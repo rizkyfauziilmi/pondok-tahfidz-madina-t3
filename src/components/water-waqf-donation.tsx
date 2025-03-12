@@ -29,8 +29,8 @@ export default function WaterWaqfDonation() {
     <div className="flex flex-col items-center p-4">
       <Drawer>
         <DrawerTrigger asChild>
-          <Button className="w-full bg-[#009e9b] hover:bg-[#00817f]">
-            <HandCoins className="mr-2 size-4" />
+          <Button className="w-full">
+            <HandCoins />
             Donasi Sekarang
           </Button>
         </DrawerTrigger>

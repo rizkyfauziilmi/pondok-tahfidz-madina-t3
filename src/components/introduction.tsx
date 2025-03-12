@@ -61,9 +61,9 @@ export const Introduction = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-center text-lg font-bold md:text-2xl">
-        Sedekah Air: Memberi Kehidupan untuk Sesama
-      </h1>
+      <h2 className="scroll-m-20 text-center text-3xl font-semibold tracking-tight first:mt-0">
+        Wakaf sumber air pondok tahfidz Madina
+      </h2>
       <div className="relative mx-auto h-96 max-w-2xl overflow-hidden rounded-md">
         <ReactPlayer
           ref={playerRef}
@@ -139,21 +139,7 @@ export const Introduction = () => {
         ) : (
           <Skeleton className="absolute inset-0 w-full" />
         )}
-      </div>
-      <div className="flex-1">
-        <p className="leading-7 [&:not(:first-child)]:mt-6">
-          Air adalah sumber kehidupan bagi semua makhluk. Namun, masih banyak
-          saudara kita yang mengalami kesulitan untuk mendapatkan akses air
-          bersih. Melalui sedekah air, Anda bisa membantu menyediakan kebutuhan
-          air yang mendesak bagi mereka yang hidup di daerah kekeringan.
-        </p>
-        <p className="leading-7 [&:not(:first-child)]:mt-6">
-          Sedekah air bukan hanya memberikan manfaat fisik, tapi juga menjadi
-          pahala yang terus mengalir. Dengan donasi yang Anda berikan, kita
-          bersama-sama bisa membangun sumur dan sumber air di daerah yang sangat
-          membutuhkan.
-        </p>
-      </div>
+      </div>{" "}
     </div>
   );
 };

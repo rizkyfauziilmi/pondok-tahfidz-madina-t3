@@ -30,7 +30,7 @@ export const Footer = () => {
         </div>
         <div className="flex-1">
           <div className="mb-6 text-lg font-semibold">Social Media</div>
-          <div className="space-x-2">
+          <div className="flex items-center gap-2">
             <Button asChild>
               <Link
                 href="https://www.facebook.com/kang.saepudin.75"

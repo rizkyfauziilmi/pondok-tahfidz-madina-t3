@@ -28,7 +28,9 @@ export const PreviewArticle = ({ articles }: PreviewArticleProps) => {
       id="preview-article"
       className="flex flex-col items-center justify-center px-6 md:my-0 md:min-h-screen md:px-40"
     >
-      <h1 className="text-lg font-bold md:text-2xl">Artikel Terkini</h1>
+      <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
+        Artikel Terkini
+      </h2>
       <div className="relative my-12 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {articles.map((article) => (
           <Card key={article.id} className="flex h-full flex-col">
