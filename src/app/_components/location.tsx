@@ -17,9 +17,9 @@ export const Location = () => {
       <div>
         <div className="mb-1 flex items-center justify-center gap-2">
           <MapPin className="size-0 md:size-6" />
-          <h1 className="text-lg font-bold md:text-2xl">
+          <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
             Lokasi Pondok Tahfidz Madina
-          </h1>
+          </h2>
         </div>
         <p className="text-center text-xs text-muted-foreground md:text-sm">
           Jl. Bojong Hilir No.76, Mandalasari, Kec. Cikalong Wetan, Kabupaten
