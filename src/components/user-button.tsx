@@ -62,7 +62,7 @@ export const UserButton = () => {
 
   if (!session) {
     return (
-      <Button onClick={() => signIn()} size="sm">
+      <Button onClick={() => signIn()} className="w-full">
         Masuk
       </Button>
     );
