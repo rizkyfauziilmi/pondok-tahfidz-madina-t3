@@ -23,9 +23,8 @@ export const Donation = () => {
 
   return (
     <>
-      <div className="px-6">
+      <div>
         <h1 className="mb-6 text-2xl font-bold">Manajemen Donasi Air</h1>
-
         <div className="rounded-lg bg-card p-6 shadow-md">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold">Donasi Saat Ini</h2>
