@@ -122,7 +122,7 @@ export const UpdateWaterDonationDialog = ({
               name="amount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Jumlah</FormLabel>
+                  <FormLabel>Jumlah Donasi Saat Ini</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="IDR 0"
@@ -141,7 +141,7 @@ export const UpdateWaterDonationDialog = ({
               name="targetAmount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Jumlah Target</FormLabel>
+                  <FormLabel>Jumlah Target Donasi</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="IDR 0"
