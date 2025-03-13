@@ -86,3 +86,13 @@ model Article {
 
   likedByUsers User[] @relation("LikedArticles")
 }
+
+model WaterDonation {
+  id           String  @id @default(cuid())
+  amount       Float   @default(0)
+  targetAmount Float   @default(0)
+  isCompleted  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
