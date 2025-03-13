@@ -6,8 +6,10 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Edit } from "lucide-react";
 import { Progress } from "./ui/progress";
+import { useSession } from "next-auth/react";
 
 export const Donation = () => {
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
 
   const {
@@ -19,19 +21,25 @@ export const Donation = () => {
     retry: false,
   });
 
+  const isAdmin = session?.user.isAdmin;
   const isSkeletonOn = isLoading || isError || !donation || isRefetching;
 
   return (
     <>
-      <div className="px-6">
+      <div>
         <h1 className="mb-6 text-2xl font-bold">Manajemen Donasi Air</h1>
-
         <div className="rounded-lg bg-card p-6 shadow-md">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold">Donasi Saat Ini</h2>
-            <Button variant="outline" size="icon" onClick={() => setOpen(true)}>
-              <Edit />
-            </Button>
+            {isAdmin && (
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setOpen(true)}
+              >
+                <Edit />
+              </Button>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -102,7 +110,7 @@ export const Donation = () => {
           )}
         </div>
       </div>
-      {donation && (
+      {donation && isAdmin && (
         <UpdateWaterDonationDialog
           open={open}
           setOpenAction={setOpen}
