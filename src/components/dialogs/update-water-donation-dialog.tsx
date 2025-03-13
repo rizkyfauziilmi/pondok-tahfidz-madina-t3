@@ -111,7 +111,9 @@ export const UpdateWaterDonationDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Perbarui Donasi Air</DialogTitle>
-          <DialogDescription>Ubah informasi donasi air</DialogDescription>
+          <DialogDescription>
+            Perbarui detail donasi air Anda, termasuk jumlah dan target donasi.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -120,7 +122,7 @@ export const UpdateWaterDonationDialog = ({
               name="amount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Amount</FormLabel>
+                  <FormLabel>Jumlah Donasi Saat Ini</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="IDR 0"
@@ -139,7 +141,7 @@ export const UpdateWaterDonationDialog = ({
               name="targetAmount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Target Amount</FormLabel>
+                  <FormLabel>Jumlah Target Donasi</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="IDR 0"
