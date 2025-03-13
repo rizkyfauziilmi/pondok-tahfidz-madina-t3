@@ -33,6 +33,7 @@ export const Introduction = () => {
   });
 
   const urls = [
+    "https://www.youtube.com/shorts/F6Pj_j4H-ws",
     "https://www.youtube.com/watch?v=ugnVSCBiP0c",
     "https://www.youtube.com/watch?v=C44bUDBSk6c",
     "https://www.youtube.com/watch?v=rkqJKYEatuM",

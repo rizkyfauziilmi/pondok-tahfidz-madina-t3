@@ -120,7 +120,7 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
                 <RenderLink data={data} key={data.id ?? data.link} isSheet />
               ))}
             </div>
-            <SheetFooter className="flex-col items-center gap-2">
+            <SheetFooter className="gap-2">
               {!isUserLoggedIn && <ModeToggle />}
               <UserButton />
             </SheetFooter>
