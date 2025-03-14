@@ -174,7 +174,7 @@ export default function WaterWaqfDonation({
           <div className="text-center text-sm text-muted-foreground">
             <p>Setelah melakukan pembayaran, silakan konfirmasi melalui:</p>
             <a
-              href="https://wa.link/rcd0jf"
+              href="https://wa.link/lar5dw"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 flex items-center justify-center text-sky-600 hover:text-sky-700"
