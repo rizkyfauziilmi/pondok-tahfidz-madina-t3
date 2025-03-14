@@ -10,7 +10,6 @@ import {
   SheetDescription,
   SheetFooter,
 } from "~/components/ui/sheet";
-import { cn } from "~/lib/utils";
 import { useSidebarStore } from "~/stores/sidebar-store";
 import { Menu } from "lucide-react";
 import Image from "next/image";
@@ -45,21 +44,18 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
 
   const RenderLink = ({
     data,
-    isSheet = false,
   }: {
     data: dataLinkType;
-    isSheet?: boolean;
   }) => {
     if (!data || (data.id === "preview-article" && !showArticle)) return null;
     return (
       <p
-        className={cn(
-          isSheet ? "text-primary" : "text-white",
-          "cursor-pointer font-semibold hover:text-[#f7af2e]",
-        )}
+        className={
+          "cursor-pointer font-semibold text-[#f7af2e]"
+        }
         onClick={() => {
-          router.push(data.id ? `#${data.id}` : (data.link ?? "/"));
           setIsOpen(false);
+          router.push(data.id ? `#${data.id}` : (data.link ?? "/"));
         }}
       >
         {data.title}
@@ -115,9 +111,9 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
                 kami.
               </SheetDescription>
             </SheetHeader>
-            <div className="mb-2 flex flex-col gap-4">
+            <div className="mb-2 mt-4 flex flex-col gap-4">
               {dataLink.map((data) => (
-                <RenderLink data={data} key={data.id ?? data.link} isSheet />
+                <RenderLink data={data} key={data.id ?? data.link} />
               ))}
             </div>
             <SheetFooter className="gap-2">

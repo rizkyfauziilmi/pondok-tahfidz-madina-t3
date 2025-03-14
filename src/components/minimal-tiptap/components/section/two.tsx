@@ -13,8 +13,9 @@ import {
   UnderlineIcon
 } from '@radix-ui/react-icons'
 import { ToolbarSection } from '../toolbar-section'
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from 'lucide-react'
 
-type TextStyleAction = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'clearFormatting'
+type TextStyleAction = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'clearFormatting' | 'leftAlign' | 'centerAlign' | 'rightAlign' | 'justifyAlign'
 
 interface TextStyle extends FormatAction {
   value: TextStyleAction
@@ -74,6 +75,42 @@ const formatActions: TextStyle[] = [
     isActive: () => false,
     canExecute: editor => editor.can().chain().focus().unsetAllMarks().run() && !editor.isActive('codeBlock'),
     shortcuts: ['mod', '\\']
+  },
+  {
+    value: 'leftAlign',
+    label: 'Left align',
+    icon: <AlignLeft className="size-5" />,
+    action: editor => editor.chain().focus().setTextAlign('left').run(),
+    isActive: editor => editor.isActive('textAlign', 'left'),
+    canExecute: editor => editor.can().chain().focus().setTextAlign('left').run() && !editor.isActive('codeBlock'),
+    shortcuts: ['mod', 'shift', 'L']
+  },
+  {
+    value: 'centerAlign',
+    label: 'Center align',
+    icon: <AlignCenter className="size-5" />,
+    action: editor => editor.chain().focus().setTextAlign('center').run(),
+    isActive: editor => editor.isActive('textAlign', 'center'),
+    canExecute: editor => editor.can().chain().focus().setTextAlign('center').run() && !editor.isActive('codeBlock'),
+    shortcuts: ['mod', 'shift', 'E']
+  },
+  {
+    value: 'rightAlign',
+    label: 'Right align',
+    icon: <AlignRight className="size-5" />,
+    action: editor => editor.chain().focus().setTextAlign('right').run(),
+    isActive: editor => editor.isActive('textAlign', 'right'),
+    canExecute: editor => editor.can().chain().focus().setTextAlign('right').run() && !editor.isActive('codeBlock'),
+    shortcuts: ['mod', 'shift', 'R']
+  },
+  {
+    value: 'justifyAlign',
+    label: 'Justify align',
+    icon: <AlignJustify className="size-5" />,
+    action: editor => editor.chain().focus().setTextAlign('justify').run(),
+    isActive: editor => editor.isActive('textAlign', 'justify'),
+    canExecute: editor => editor.can().chain().focus().setTextAlign('justify').run() && !editor.isActive('codeBlock'),
+    shortcuts: ['mod', 'shift', 'J']
   }
 ]
 
