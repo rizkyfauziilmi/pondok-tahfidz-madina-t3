@@ -7,6 +7,7 @@ import { Typography } from "@tiptap/extension-typography";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Underline } from "@tiptap/extension-underline";
 import { TextStyle } from "@tiptap/extension-text-style";
+import { TextAlign } from "@tiptap/extension-text-align";
 import {
   Link,
   Image,
@@ -159,6 +160,9 @@ const createExtensions = (placeholder: string) => [
   HorizontalRule,
   ResetMarksOnEnter,
   CodeBlockLowlight,
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
+  }),
   Placeholder.configure({ placeholder: () => placeholder }),
 ];
 
