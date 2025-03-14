@@ -21,7 +21,7 @@ export const Introduction = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const playerRef = useRef<ReactPlayer>(null);
   const [opacity, setOpacity] = useState(isMobile ? 1 : 0.8);
   const [urlIndex, setUrlIndex] = useState(0);
