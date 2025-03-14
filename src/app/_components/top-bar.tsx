@@ -51,7 +51,7 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
     return (
       <p
         className={
-          "cursor-pointer font-semibold hover:text-[#f7af2e]"
+          "cursor-pointer font-semibold text-[#f7af2e]"
         }
         onClick={() => {
           setIsOpen(false);
@@ -111,7 +111,7 @@ export const TopBar = ({ showArticle = false }: TopBarProps) => {
                 kami.
               </SheetDescription>
             </SheetHeader>
-            <div className="mb-2 flex flex-col gap-4">
+            <div className="mb-2 mt-4 flex flex-col gap-4">
               {dataLink.map((data) => (
                 <RenderLink data={data} key={data.id ?? data.link} />
               ))}
